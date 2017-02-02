@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,8 +29,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.kosalgeek.genasync12.AsyncResponse;
+import com.kosalgeek.genasync12.MainActivity;
+import com.kosalgeek.genasync12.PostResponseAsyncTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -92,6 +99,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+
     }
 
     private void populateAutoComplete() {
@@ -333,6 +343,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+
+                //testHashMap();
+
+                HashMap postData = new HashMap();
+                postData.put("txtUsername", mEmail  );
+                postData.put("txtPassword",mPassword);
+                PostResponseAsyncTask task1 = new PostResponseAsyncTask(LoginActivity.this,postData, new AsyncResponse() {
+                    @Override
+                    public void processFinish(String s) {
+                        if(s.contains("success")){
+                            Toast.makeText( LoginActivity.this,"Login Sucessful", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                task1.execute("https://students.washington.edu/munkh92/test/login.php");
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -347,4 +372,3 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 }
-
