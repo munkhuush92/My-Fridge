@@ -103,9 +103,10 @@
                     android:text="@string/action_register"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
