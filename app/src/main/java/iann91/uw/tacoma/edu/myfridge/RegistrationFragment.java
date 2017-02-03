@@ -45,12 +45,14 @@ public class RegistrationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_registration, container,
+                false);
         // Inflate the layout for this fragment
-        myRegisterButton = (Button) getView().findViewById(R.id.button);
-        email = (EditText) getView().findViewById(R.id.email_input);
-        password = (EditText) getView().findViewById(R.id.password_input);
-        firstname = (EditText) getView().findViewById(R.id.Firstname_input);
-        lastname = (EditText) getView().findViewById(R.id.Lastname_input);
+        myRegisterButton = (Button) view.findViewById(R.id.button);
+        email = (EditText) view.findViewById(R.id.email_input);
+        password = (EditText) view.findViewById(R.id.password_input);
+        firstname = (EditText) view.findViewById(R.id.Firstname_input);
+        lastname = (EditText) view.findViewById(R.id.Lastname_input);
 
         myRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +66,7 @@ public class RegistrationFragment extends Fragment {
                 b.execute(Email, Password, FirstName, LastName);
             }
         });
-        return inflater.inflate(R.layout.fragment_registration, container, false);
+        return view;
     }
 
 
