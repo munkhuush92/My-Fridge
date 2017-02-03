@@ -8,27 +8,43 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="iann91.uw.tacoma.edu.myfridge.LoginActivity">
+    android:background="@color/background"
+    tools:context="iann91.uw.tacoma.edu.myfridge.LoginActivity"
+    android:weightSum="1">
 
     <!-- Login progress -->
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="208dp"
+        android:background="@drawable/login_page_rectangles"
+        android:id="@+id/title">
+
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_page_rectangles"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.13">
+
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -55,22 +71,40 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeActionLabel="@string/action_sign_in"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
+            <LinearLayout
+                android:id="@+id/buttonPanel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:layout_height="66dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/email_sign_in_button"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:background="@drawable/round_button_login"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="@string/action_sign_in"/>
+
+
+                <Button
+                    android:id="@+id/register"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:background="@drawable/round_button_register"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/action_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
