@@ -28,6 +28,8 @@ public class RegistrationFragment extends Fragment {
     private String Email, Password, FirstName, LastName;
 
     private Button myRegisterButton;
+    private LoginFragment.OnListFragmentInteractionListener mListener;
+
     public RegistrationFragment() {
         // Required empty public constructor
 
@@ -64,9 +66,17 @@ public class RegistrationFragment extends Fragment {
                 LastName = lastname.getText().toString();
                 BackGround b = new BackGround();
                 b.execute(Email, Password, FirstName, LastName);
+                showOtherFragment();
             }
         });
         return view;
+    }
+
+    public void showOtherFragment()
+    {
+        Fragment loginFragment = new LoginFragment();
+        mListener = (LoginFragment.OnListFragmentInteractionListener)getActivity();
+        mListener.onListFragmentInteraction(loginFragment);
     }
 
 
@@ -109,4 +119,5 @@ public class RegistrationFragment extends Fragment {
             }
         }
     }
+
 }
