@@ -57,14 +57,14 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment implements LoaderCallbacks<Cursor> {
+public class LoginFragment extends Fragment {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "bar@example.com:world"
     };
 
     // UI references.
@@ -222,38 +222,6 @@ public class LoginFragment extends Fragment implements LoaderCallbacks<Cursor> {
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(getActivity().getApplicationContext(),
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -313,10 +281,11 @@ public class LoginFragment extends Fragment implements LoaderCallbacks<Cursor> {
                 HashMap postData = new HashMap();
                 postData.put("txtUsername", mEmail  );
                 postData.put("txtPassword",mPassword);
-                PostResponseAsyncTask task1 = new PostResponseAsyncTask(getActivity(), new AsyncResponse() {
+
+                PostResponseAsyncTask task1 = new PostResponseAsyncTask(getActivity(), postData, new AsyncResponse() {
                     @Override
                     public void processFinish(String s) {
-                        System.out.println(s);
+                        Toast.makeText( getActivity(),s, Toast.LENGTH_LONG).show();
                         if(s.contains("success")){
                             Toast.makeText( getActivity(),"Login Sucessful", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getActivity().getApplicationContext(), DashboardActivity.class);
