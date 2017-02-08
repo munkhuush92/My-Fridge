@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
-        android:id="@+id/button"
+        android:id="@+id/fragRegisterbutton"
         android:layout_below="@+id/textInputLayout4"
         android:layout_alignRight="@+id/editText"
         android:layout_alignEnd="@+id/editText" />

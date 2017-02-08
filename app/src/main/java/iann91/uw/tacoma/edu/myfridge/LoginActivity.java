@@ -40,6 +40,14 @@ import com.kosalgeek.genasync12.AsyncResponse;
 import com.kosalgeek.genasync12.MainActivity;
 import com.kosalgeek.genasync12.PostResponseAsyncTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +57,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends FragmentActivity implements LoginFragment.OnListFragmentInteractionListener{
+public class LoginActivity extends FragmentActivity implements LoginFragment.OnListFragmentInteractionListener, RegistrationFragment.UserRegisterListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,4 +101,84 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
     }
 
 
+    @Override
+    public void registerUser(String url) {
+
+            RegisterTask task = new RegisterTask();
+            task.execute(new String[]{url.toString()});
+
+            // Takes you back to the previous fragment by popping the current fragment out.
+            //getSupportFragmentManager().popBackStackImmediate();
+        Intent goToDashBoard = new Intent(this, DashboardActivity.class);
+        startActivity(goToDashBoard);
+
+
+
+    }
+
+    private class RegisterTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+
+                    InputStream content = urlConnection.getInputStream();
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                } catch (Exception e) {
+                    response = "Unable to add course, Reason: "
+                            + e.getMessage();
+                } finally {
+                    if (urlConnection != null)
+                        urlConnection.disconnect();
+                }
+            }
+            return response;
+        }
+
+
+        /**
+         * It checks to see if there was a problem with the URL(Network) which is when an
+         * exception is caught. It tries to call the parse Method and checks to see if it was successful.
+         * If not, it displays the exception.
+         *
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            // Something wrong with the network or the URL.
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                String status = (String) jsonObject.get("result");
+                if (status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), "Registration is successful!"
+                            , Toast.LENGTH_LONG)
+                            .show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed to register: "
+                                    + jsonObject.get("error")
+                            , Toast.LENGTH_LONG)
+                            .show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
+                        e.getMessage(), Toast.LENGTH_LONG).show();
+               
+            }
+        }
+    }
 }

@@ -4,7 +4,9 @@ package iann91.uw.tacoma.edu.myfridge;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,28 +20,41 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RegistrationFragment extends Fragment {
-    private EditText email, password, firstname, lastname;
     private String Email, Password, FirstName, LastName;
 
-    private Button myRegisterButton;
-    private LoginFragment.OnListFragmentInteractionListener mListener;
+    private UserRegisterListener mListener;
+
+    private EditText mEmailEditText;
+    private EditText mPasswordEditText;
+    private EditText mFirstnameEditText;
+    private EditText mLastnameEditText;
+
+    private final static String COURSE_ADD_URL
+            = "http://cssgate.insttech.washington.edu/~munkh92/register.php?";
+
+    public interface UserRegisterListener {
+        public void registerUser(String url);
+    }
 
     public RegistrationFragment() {
         // Required empty public constructor
-
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof UserRegisterListener) {
+            mListener = (UserRegisterListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement CourseAddListener");
         }
     }
 
@@ -47,77 +62,66 @@ public class RegistrationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registration, container,
-                false);
-        // Inflate the layout for this fragment
-        myRegisterButton = (Button) view.findViewById(R.id.button);
-        email = (EditText) view.findViewById(R.id.email_input);
-        password = (EditText) view.findViewById(R.id.password_input);
-        firstname = (EditText) view.findViewById(R.id.Firstname_input);
-        lastname = (EditText) view.findViewById(R.id.Lastname_input);
 
-        myRegisterButton.setOnClickListener(new View.OnClickListener() {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_registration, container, false);
+        mEmailEditText = (EditText) v.findViewById(R.id.email_input);
+        mPasswordEditText = (EditText) v.findViewById(R.id.password_input);
+        mFirstnameEditText = (EditText) v.findViewById(R.id.Firstname_input);
+        mLastnameEditText = (EditText) v.findViewById(R.id.Lastname_input);
+
+
+//        FloatingActionButton floatingActionButton = (FloatingActionButton)
+//                getActivity().findViewById(R.id.fab);
+//        floatingActionButton.show();
+
+
+        Button registerButton = (Button) v.findViewById(R.id.fragRegisterbutton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Email = email.getText().toString();
-                Password = password.getText().toString();
-                FirstName = firstname.getText().toString();
-                LastName = lastname.getText().toString();
-                BackGround b = new BackGround();
-                b.execute(Email, Password, FirstName, LastName);
-                showOtherFragment();
+                String url = buildCourseURL(v);
+                mListener.registerUser(url);
             }
         });
-        return view;
+
+        return v;
     }
 
-    public void showOtherFragment()
-    {
-        Fragment loginFragment = new LoginFragment();
-        mListener = (LoginFragment.OnListFragmentInteractionListener)getActivity();
-        mListener.onListFragmentInteraction(loginFragment);
-    }
+    private String buildCourseURL(View v) {
+
+        StringBuilder sb = new StringBuilder(COURSE_ADD_URL);
+
+        try {
+
+            String personEmail = mEmailEditText.getText().toString();
+            sb.append("email=");
+            sb.append(personEmail);
 
 
-    class BackGround extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            String email = params[0];
-            String password = params[1];
-            String first_name = params[2];
-            String last_name = params[3];
-            String data = "";
-            int tmp;
+            String personPass = mPasswordEditText.getText().toString();
+            sb.append("&password=");
+            sb.append(URLEncoder.encode(personPass, "UTF-8"));
 
-            try {
-                URL url = new URL("http://students.washington.edu/munkh92/test/register.php");
-                String urlParams = "email=" + email + "&password=" + password +
-                        "&first_name=" + first_name + "&last_name" + last_name;
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setDoOutput(true);
-                OutputStream os = httpURLConnection.getOutputStream();
-                os.write(urlParams.getBytes());
-                os.flush();
-                os.close();
-                InputStream is = httpURLConnection.getInputStream();
-                System.out.println(is.toString());
-                while ((tmp = is.read()) != -1) {
-                    data += (char) tmp;
-                }
-                is.close();
-                httpURLConnection.disconnect();
 
-                return data;
+            String personFirstname = mFirstnameEditText.getText().toString();
+            sb.append("&firstname=");
+            sb.append(URLEncoder.encode(personFirstname, "UTF-8"));
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return "Exception: " + e.getMessage();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "Exception: " + e.getMessage();
-            }
+            String personLastname = mLastnameEditText.getText().toString();
+            sb.append("&lastname=");
+            sb.append(URLEncoder.encode(personLastname, "UTF-8"));
+
+            Log.i("REgister user", sb.toString());
+
         }
+        catch(Exception e) {
+            Toast.makeText(v.getContext(), "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+        return sb.toString();
     }
+
+
 
 }
