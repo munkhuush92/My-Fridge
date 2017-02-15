@@ -287,9 +287,11 @@ public class LoginFragment extends Fragment {
                     public void processFinish(String s) {
                         Toast.makeText( getActivity(),s, Toast.LENGTH_LONG).show();
                         if(s.contains("success")){
-                            Toast.makeText( getActivity(),"Login Sucessful", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getActivity().getApplicationContext(), DashboardActivity.class);
                             startActivity(intent);
+                            Toast.makeText( getActivity(),"Login Sucessful", Toast.LENGTH_LONG).show();
+
+
                         }else{
                             Toast.makeText( getActivity(),"Login Failed", Toast.LENGTH_LONG).show();
                             mEmailView.requestFocus();

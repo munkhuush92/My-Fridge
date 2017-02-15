@@ -97,7 +97,6 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         ;
-
     }
 
 
@@ -109,11 +108,6 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
 
             // Takes you back to the previous fragment by popping the current fragment out.
             //getSupportFragmentManager().popBackStackImmediate();
-        Intent goToDashBoard = new Intent(this, DashboardActivity.class);
-        startActivity(goToDashBoard);
-
-
-
     }
 
     private class RegisterTask extends AsyncTask<String, Void, String> {
@@ -168,6 +162,8 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
                     Toast.makeText(getApplicationContext(), "Registration is successful!"
                             , Toast.LENGTH_LONG)
                             .show();
+                    Intent goToDashBoard = new Intent(getApplicationContext(), DashboardActivity.class);
+                    startActivity(goToDashBoard);
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to register: "
                                     + jsonObject.get("error")
@@ -177,7 +173,7 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
             } catch (JSONException e) {
                 Toast.makeText(getApplicationContext(), "Something wrong with the data" +
                         e.getMessage(), Toast.LENGTH_LONG).show();
-               
+
             }
         }
     }
