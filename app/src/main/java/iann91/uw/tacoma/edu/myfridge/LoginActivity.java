@@ -58,7 +58,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends FragmentActivity implements LoginFragment.OnListFragmentInteractionListener, RegistrationFragment.UserRegisterListener{
-
+    private boolean mRegisterationSuccessfull = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +108,11 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
 
             // Takes you back to the previous fragment by popping the current fragment out.
             //getSupportFragmentManager().popBackStackImmediate();
+        if(mRegisterationSuccessfull) {
+            Intent goToDashBoard = new Intent(this, DashboardActivity.class);
+            startActivity(goToDashBoard);
+        }
+
     }
 
     private class RegisterTask extends AsyncTask<String, Void, String> {
@@ -162,8 +167,8 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
                     Toast.makeText(getApplicationContext(), "Registration is successful!"
                             , Toast.LENGTH_LONG)
                             .show();
-                    Intent goToDashBoard = new Intent(getApplicationContext(), DashboardActivity.class);
-                    startActivity(goToDashBoard);
+                    mRegisterationSuccessfull = true;
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to register: "
                                     + jsonObject.get("error")
