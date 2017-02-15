@@ -3,34 +3,36 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/inventory_dashboard"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="Inventory" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/recipe_dashboard"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Search Recipes" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/grocery_dashboard"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Grocery List" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/my_recipe_dash"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="My Recipes" />
+        <item
+            android:id="@+id/scanner_dashboard"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Scanner" />
+        <item
+            android:id="@+id/plan_week_dashboard"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Plan Week" />
+        <item
+            android:id="@+id/calendar_dashboard"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Calendar" />
+        <item
+            android:id="@+id/logout_dash"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Logout" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>

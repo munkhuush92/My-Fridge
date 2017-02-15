@@ -18,7 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class DashboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, InventoryFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DashboardFragment.OnListFragmentInteractionListener{
 
     protected DrawerLayout mDrawer;
 
@@ -38,6 +38,27 @@ public class DashboardActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (findViewById(R.id.dashboard_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+            DashboardFragment dashboardFragment = new DashboardFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            dashboardFragment.setArguments(getIntent().getExtras());
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.dashboard_container, dashboardFragment).commit();
+        }
+
     }
 
     @Override
@@ -77,35 +98,33 @@ public class DashboardActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        if (id == R.id.inventory_dashboard) {
+            fragment = new InventoryFragment();
+        } else if (id == R.id.recipe_dashboard) {
+            fragment = new SearchRecipesFragment();
+        } else if (id == R.id.grocery_dashboard) {
+            fragment = new GroceryListFragment();
+        } else if (id == R.id.my_recipe_dash) {
+            fragment = new MyRecipesFragment();
+        } else if (id == R.id.scanner_dashboard) {
+            fragment = new ScannerFragment();
+        } else if (id == R.id.plan_week_dashboard) {
+            fragment = new PlanWeekFragment();
+        } else if (id == R.id.calendar_dashboard) {
+            fragment = new CalendarFragment();
+        } else if (id == R.id.logout_dash) {
 
         }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.dashboard_container, fragment).addToBackStack(null).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void launchInventory(View view) {
-        FragmentManager fragmentManager = getSupportFragmentManager();;
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-
 
     @Override
     public void onListFragmentInteraction(Fragment fragment) {
@@ -113,7 +132,7 @@ public class DashboardActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.dashboard_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         ;

@@ -1,13 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="iann91.uw.tacoma.edu.myfridge.DashboardFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:openDrawer="start"
+android:orientation="vertical"
+android:gravity="center"
+tools:context="iann91.uw.tacoma.edu.myfridge.DashboardFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+
+    <Button
+        android:id="@+id/recipes_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="My Recipes"
+        />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/grocery_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Grocery Lists"
+        android:layout_above="@id/recipes_button"
+        />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Recipes"
+        android:layout_above="@id/grocery_button"
+        />
+
+    <Button
+        android:id="@+id/inventory_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inventory"
+        android:layout_above="@id/search_button"
+        />
+
+    <Button
+        android:id="@+id/scanner_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scanner"
+        android:layout_below="@id/recipes_button"
+        />
+    <Button
+        android:id="@+id/plan_week_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plan Week"
+        android:layout_below="@id/scanner_button"
+        />
+    <Button
+        android:id="@+id/calendar_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calendar"
+        android:layout_below="@id/plan_week_button"
+        />
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:layout_below="@id/calendar_button"
+        />
+
+</RelativeLayout>
+
+
+
