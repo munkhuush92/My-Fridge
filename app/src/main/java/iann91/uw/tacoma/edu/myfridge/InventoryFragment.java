@@ -2,10 +2,12 @@ package iann91.uw.tacoma.edu.myfridge;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
@@ -13,7 +15,7 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InventoryFragment extends Fragment implements ItemFragment.OnListFragmentInteractionListener {
+public class InventoryFragment extends Fragment {
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -24,19 +26,29 @@ public class InventoryFragment extends Fragment implements ItemFragment.OnListFr
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        View view = inflater.inflate(R.layout.fragment_inventory, container,
+                false);
+
+        final Button itemsButton = (Button) view.findViewById(R.id.items_button);
+
         if (savedInstanceState == null || getActivity().getSupportFragmentManager().findFragmentById(R.id.list) == null) {
-            ItemFragment itemFragment = new ItemFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.dashboard_container, itemFragment)
-                    .commit();
+            itemsButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ItemFragment itemFragment = new ItemFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content_dashboard, itemFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
         }
 
-        return inflater.inflate(R.layout.fragment_inventory, container, false);
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.fab);
+        floatingActionButton.hide();
+
+        return view;
     }
 
-    @Override
-    public void onListFragmentInteraction(Item course) {
-
-    }
 
 }

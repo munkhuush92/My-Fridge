@@ -3,17 +3,17 @@ package iann91.uw.tacoma.edu.myfridge;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import iann91.uw.tacoma.edu.myfridge.dummy.DummyContent;
-import iann91.uw.tacoma.edu.myfridge.dummy.DummyContent.DummyItem;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 import java.io.BufferedReader;
@@ -37,8 +37,8 @@ public class ItemFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    /*private static final String ITEM_URL
-            = "http://cssgate.insttech.washington.edu/~uwnetid/list.php?cmd=courses";*/
+    private static final String ITEM_URL
+            = "http://cssgate.insttech.washington.edu/~iann91/downloaditems.php?cmd=items";
 
     private RecyclerView mRecyclerView;
 
@@ -48,17 +48,6 @@ public class ItemFragment extends Fragment {
      */
     public ItemFragment() {
     }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ItemFragment newInstance(int columnCount) {
-        ItemFragment fragment = new ItemFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,16 +62,21 @@ public class ItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.fab);
+        floatingActionButton.show();
+
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            mRecyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            DownloadCoursesTask task = new DownloadCoursesTask();
+            DownloadItemsTask task = new DownloadItemsTask();
             task.execute(new String[]{ITEM_URL});
 
         }
@@ -93,8 +87,8 @@ public class ItemFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof ItemFragment.OnListFragmentInteractionListener) {
+            mListener = (ItemFragment.OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -107,7 +101,7 @@ public class ItemFragment extends Fragment {
         mListener = null;
     }
 
-    private class DownloadCoursesTask extends AsyncTask<String, Void, String> {
+    private class DownloadItemsTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... urls) {

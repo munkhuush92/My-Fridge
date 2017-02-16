@@ -3,6 +3,7 @@ package iann91.uw.tacoma.edu.myfridge;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import android.widget.Button;
  */
 public class DashboardFragment extends Fragment {
 
-    private OnListFragmentInteractionListener mListener;
+    private OnDashboardFragmentInteractionListener mListener;
 
 
     public DashboardFragment() {
@@ -34,8 +35,8 @@ public class DashboardFragment extends Fragment {
         inventoryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment inventoryFragment = new InventoryFragment();
-                mListener = (OnListFragmentInteractionListener)getActivity();
-                mListener.onListFragmentInteraction(inventoryFragment);
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(inventoryFragment);
             }
         });
 
@@ -43,8 +44,8 @@ public class DashboardFragment extends Fragment {
         searchRecipesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment searchRecipesFragment = new SearchRecipesFragment();
-                mListener = (OnListFragmentInteractionListener)getActivity();
-                mListener.onListFragmentInteraction(searchRecipesFragment);
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(searchRecipesFragment);
             }
         });
 
@@ -52,8 +53,8 @@ public class DashboardFragment extends Fragment {
         groceryListButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment groceryListFragment = new GroceryListFragment();
-                mListener = (OnListFragmentInteractionListener)getActivity();
-                mListener.onListFragmentInteraction(groceryListFragment);
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(groceryListFragment);
             }
         });
 
@@ -61,8 +62,8 @@ public class DashboardFragment extends Fragment {
         myRecipesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment myRecipeFragment = new MyRecipesFragment();
-                mListener = (OnListFragmentInteractionListener)getActivity();
-                mListener.onListFragmentInteraction(myRecipeFragment);
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(myRecipeFragment);
             }
         });
 
@@ -70,8 +71,8 @@ public class DashboardFragment extends Fragment {
         scannerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment scannerFragment = new ScannerFragment();
-                mListener = (OnListFragmentInteractionListener)getActivity();
-                mListener.onListFragmentInteraction(scannerFragment);
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(scannerFragment);
             }
         });
 
@@ -79,8 +80,8 @@ public class DashboardFragment extends Fragment {
         planWeekButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment planWeekFragment = new PlanWeekFragment();
-                mListener = (OnListFragmentInteractionListener)getActivity();
-                mListener.onListFragmentInteraction(planWeekFragment);
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(planWeekFragment);
             }
         });
 
@@ -88,19 +89,22 @@ public class DashboardFragment extends Fragment {
         calendarButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment calendarFragment = new CalendarFragment();
-                mListener = (OnListFragmentInteractionListener)getActivity();
-                mListener.onListFragmentInteraction(calendarFragment);
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(calendarFragment);
             }
         });
         // Inflate the layout for this fragment
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.fab);
+        floatingActionButton.hide();
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof DashboardFragment.OnListFragmentInteractionListener) {
-            mListener = (DashboardFragment.OnListFragmentInteractionListener) context;
+        if (context instanceof OnDashboardFragmentInteractionListener) {
+            mListener = (OnDashboardFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -117,9 +121,9 @@ public class DashboardFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
+    public interface OnDashboardFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Fragment fragment);
+        void onDashboardFragmentInteraction(Fragment fragment);
     }
 
 }

@@ -17,8 +17,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import iann91.uw.tacoma.edu.myfridge.item.Item;
+
 public class DashboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DashboardFragment.OnListFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener,
+        DashboardFragment.OnDashboardFragmentInteractionListener,
+        ItemFragment.OnListFragmentInteractionListener{
 
     protected DrawerLayout mDrawer;
 
@@ -39,7 +43,20 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (findViewById(R.id.dashboard_container) != null) {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                CourseAddFragment courseAddFragment = new CourseAddFragment();
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.fragment_container, courseAddFragment)
+//                        .addToBackStack(null)
+//                        .commit();
+
+            }
+        });
+
+        if (findViewById(R.id.content_dashboard) != null) {
 
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
@@ -56,8 +73,10 @@ public class DashboardActivity extends AppCompatActivity
             dashboardFragment.setArguments(getIntent().getExtras());
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.dashboard_container, dashboardFragment).commit();
+                    .add(R.id.content_dashboard, dashboardFragment).commit();
         }
+
+
 
     }
 
@@ -66,7 +85,8 @@ public class DashboardActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -119,7 +139,7 @@ public class DashboardActivity extends AppCompatActivity
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.dashboard_container, fragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_dashboard, fragment).addToBackStack(null).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -127,14 +147,32 @@ public class DashboardActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(Fragment fragment) {
+    public void onDashboardFragmentInteraction(Fragment fragment) {
         // Capture the course fragment from the activity layout
 
         FragmentManager fragmentManager = getSupportFragmentManager();;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.dashboard_container, fragment);
+        fragmentTransaction.replace(R.id.content_dashboard, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         ;
     }
+
+
+
+    @Override
+    public void onListFragmentInteraction(Item item) {
+        ItemDetailFragment itemDetailFragment = new ItemDetailFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ItemDetailFragment.COURSE_ITEM_SELECTED, item);
+        itemDetailFragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_dashboard, itemDetailFragment)
+                .addToBackStack(null)
+                .commit();
+
+
+    }
+
 }
