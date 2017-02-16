@@ -2,10 +2,14 @@ package iann91.uw.tacoma.edu.myfridge;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 
 /**
@@ -21,7 +25,29 @@ public class InventoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inventory, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_inventory, container,
+                false);
+
+        final Button itemsButton = (Button) view.findViewById(R.id.items_button);
+
+        if (savedInstanceState == null || getActivity().getSupportFragmentManager().findFragmentById(R.id.list) == null) {
+            itemsButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ItemFragment itemFragment = new ItemFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content_dashboard, itemFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+        }
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.fab);
+        floatingActionButton.hide();
+
+        return view;
     }
 
 
