@@ -222,7 +222,7 @@ public class DashboardActivity extends AppCompatActivity
                     }
 
                 } catch (Exception e) {
-                    response = "Unable to add course, Reason: "
+                    response = "Unable to add item, Reason: "
                             + e.getMessage();
                 } finally {
                     if (urlConnection != null)
@@ -247,7 +247,7 @@ public class DashboardActivity extends AppCompatActivity
                 JSONObject jsonObject = new JSONObject(result);
                 String status = (String) jsonObject.get("result");
                 if (status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), "Course successfully added!"
+                    Toast.makeText(getApplicationContext(), "Item successfully added!"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else {

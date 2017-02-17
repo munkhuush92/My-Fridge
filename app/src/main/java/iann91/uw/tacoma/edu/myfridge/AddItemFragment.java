@@ -28,6 +28,8 @@ public class AddItemFragment extends Fragment {
             = "http://cssgate.insttech.washington.edu/~iann91/addItem.php?";
     private final static String ITEM_UPDATE_URL
             = "http://cssgate.insttech.washington.edu/~iann91/updateItem.php?";
+    private final static String ITEM_DELETE_URL
+            = "http://cssgate.insttech.washington.edu/~iann91/deleteItem.php?";
     private EditText mItemNameEditText;
     private EditText mItemQuantityEditText;
     private EditText mFoodTypeEditText;
@@ -45,7 +47,7 @@ public class AddItemFragment extends Fragment {
             mListener = (ItemAddListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement CourseAddListener");
+                    + " must implement ItemAddListener");
         }
     }
 
@@ -82,6 +84,15 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildCourseURL(v, ITEM_UPDATE_URL);
+                mListener.addItem(url);
+            }
+        });
+
+        Button deleteItemButton = (Button) v.findViewById(R.id.delete_item_button);
+        deleteItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = buildCourseURL(v, ITEM_DELETE_URL);
                 mListener.addItem(url);
             }
         });

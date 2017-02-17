@@ -43,6 +43,14 @@
             android:layout_gravity="right"
             android:text="Update Item"
             android:onClick="addItem" />
+
+        <Button
+            android:id="@+id/delete_item_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Delete Item"
+            android:onClick="addItem" />
     </LinearLayout>
 
 
