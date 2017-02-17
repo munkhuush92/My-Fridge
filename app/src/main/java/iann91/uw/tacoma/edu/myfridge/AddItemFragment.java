@@ -21,13 +21,17 @@ import java.net.URLEncoder;
  */
 public class AddItemFragment extends Fragment {
 
+    private ItemAddListener mListener;
 
-    private CourseAddListener mListener;
+    //private ItemAddListener mListener;
     private final static String ITEM_ADD_URL
             = "http://cssgate.insttech.washington.edu/~iann91/addItem.php?";
+    private final static String ITEM_UPDATE_URL
+            = "http://cssgate.insttech.washington.edu/~iann91/updateItem.php?";
     private EditText mItemNameEditText;
     private EditText mItemQuantityEditText;
     private EditText mFoodTypeEditText;
+    private int mPersonID;
 
 
     public AddItemFragment() {
@@ -53,9 +57,10 @@ public class AddItemFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_item, container, false);
 
-        mItemNameEditText = (EditText) v.findViewById(R.id.add_item_id);
+        mItemNameEditText = (EditText) v.findViewById(R.id.add_item_name);
         mItemQuantityEditText = (EditText) v.findViewById(R.id.add_item_quantity);
         mFoodTypeEditText = (EditText) v.findViewById(R.id.add_item_type);
+        mPersonID =  getActivity().getIntent().getIntExtra("id", 0);
 
 
 
@@ -67,7 +72,16 @@ public class AddItemFragment extends Fragment {
         addItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = buildCourseURL(v);
+                String url = buildCourseURL(v, ITEM_ADD_URL);
+                mListener.addItem(url);
+            }
+        });
+
+        Button updateItemButton = (Button) v.findViewById(R.id.update_item_button);
+        updateItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = buildCourseURL(v, ITEM_UPDATE_URL);
                 mListener.addItem(url);
             }
         });
@@ -75,31 +89,21 @@ public class AddItemFragment extends Fragment {
         return v;
     }
 
-    private String buildCourseURL(View v) {
+    private String buildCourseURL(View v, String type) {
 
-        StringBuilder sb = new StringBuilder(ITEM_ADD_URL);
+        StringBuilder sb = new StringBuilder(type);
 
         try {
-
-            String courseId = mCourseIdEditText.getText().toString();
-            sb.append("id=");
-            sb.append(courseId);
-
-
-            String courseShortDesc = mCourseShortDescEditText.getText().toString();
-            sb.append("&shortDesc=");
+            String courseShortDesc = mItemNameEditText.getText().toString();
+            sb.append("&nameFoodItem=");
             sb.append(URLEncoder.encode(courseShortDesc, "UTF-8"));
-
-
-            String courseLongDesc = mCourseLongDescEditText.getText().toString();
-            sb.append("&longDesc=");
+            String courseLongDesc = mItemQuantityEditText.getText().toString();
+            sb.append("&sizeFoodItem=");
             sb.append(URLEncoder.encode(courseLongDesc, "UTF-8"));
-
-            String coursePrereqs = mCoursePrereqsEditText.getText().toString();
-            sb.append("&prereqs=");
+            sb.append("&PersonID=" + mPersonID);
+            String coursePrereqs = mFoodTypeEditText.getText().toString();
+            sb.append("&foodType=");
             sb.append(URLEncoder.encode(coursePrereqs, "UTF-8"));
-
-            Log.i("CourseAddFragment", sb.toString());
 
         }
         catch(Exception e) {
@@ -110,8 +114,8 @@ public class AddItemFragment extends Fragment {
     }
 
 
-    public interface CourseAddListener {
-        public void addCourse(String url);
+    public interface ItemAddListener {
+        public void addItem(String url);
     }
 
 }

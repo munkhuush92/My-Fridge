@@ -40,6 +40,7 @@ public class ItemFragment extends Fragment {
     private static final String ITEM_URL
             = "http://cssgate.insttech.washington.edu/~iann91/downloaditems.php?cmd=items";
 
+
     private RecyclerView mRecyclerView;
 
     /**

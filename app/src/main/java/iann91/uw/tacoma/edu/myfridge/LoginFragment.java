@@ -261,7 +261,7 @@ public class LoginFragment extends Fragment {
             HttpURLConnection urlConnection = null;
             try {
                 StringBuilder builder = new StringBuilder();
-                builder.append("https://students.washington.edu/munkh92/test/fetch.php?email=");
+                builder.append("http://cssgate.insttech.washington.edu/~iann91/login.php?email=");
                 builder.append(mEmail);
                 builder.append("&password=");
                 builder.append(mPassword);
@@ -293,16 +293,22 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
+
+
             mAuthTask = null;
             String err=null;
+
+            showProgress(false);
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 String status = (String) jsonObject.get("result");
-                showProgress(false);
+
                 if (status.equals("success")) {
+                    int id = (int) jsonObject.get("id");
                     Intent i = new Intent(getActivity(), DashboardActivity.class);
                     i.putExtra("username", mEmail);
                     i.putExtra("password", mPassword);
+                    i.putExtra("id", id);
                     startActivity(i);
                 }
 
