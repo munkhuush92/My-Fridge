@@ -48,11 +48,24 @@ import com.kosalgeek.genasync12.AsyncResponse;
 import com.kosalgeek.genasync12.MainActivity;
 import com.kosalgeek.genasync12.PostResponseAsyncTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.R.attr.name;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,7 +83,6 @@ public class LoginFragment extends Fragment {
     private View mProgressView;
     private View mLoginFormView;
     private OnListFragmentInteractionListener mListener;
-
 
     public LoginFragment() {
         // Required empty public constructor
@@ -233,7 +245,7 @@ public class LoginFragment extends Fragment {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
         private final String mEmail;
         private final String mPassword;
@@ -244,47 +256,87 @@ public class LoginFragment extends Fragment {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            try {
+                StringBuilder builder = new StringBuilder();
+                builder.append("https://students.washington.edu/munkh92/test/fetch.php?email=");
+                builder.append(mEmail);
+                builder.append("&password=");
+                builder.append(mPassword);
 
-            return true;
+                URL url = new URL(builder.toString());
+
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+
+                InputStream content = urlConnection.getInputStream();
+
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+
+            } catch (Exception e) {
+                response = "Unable to add course, Reason: "
+                        + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+
+        return response;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(String s) {
             mAuthTask = null;
-            showProgress(false);
+            String err=null;
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                String status = (String) jsonObject.get("result");
+                showProgress(false);
+                if (status.equals("success")) {
+                    Intent i = new Intent(getActivity(), DashboardActivity.class);
+                    i.putExtra("username", mEmail);
+                    i.putExtra("password", mPassword);
+                    startActivity(i);
+                }
 
-            if (success) {
-
-                //testHashMap();
-
-                HashMap postData = new HashMap();
-                postData.put("txtUsername", mEmail  );
-                postData.put("txtPassword",mPassword);
-
-                PostResponseAsyncTask task1 = new PostResponseAsyncTask(getActivity(), postData, new AsyncResponse() {
-                    @Override
-                    public void processFinish(String s) {
-                        Toast.makeText( getActivity(),s, Toast.LENGTH_LONG).show();
-                        if(s.contains("success")){
-                            Intent intent = new Intent(getActivity().getApplicationContext(), DashboardActivity.class);
-                            startActivity(intent);
-                            Toast.makeText( getActivity(),"Login Sucessful", Toast.LENGTH_LONG).show();
-
-
-                        }else{
-                            Toast.makeText( getActivity(),"Login Failed", Toast.LENGTH_LONG).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                err = "Exception: "+e.getMessage();
+                Toast.makeText( getActivity(),"Login Failed", Toast.LENGTH_LONG).show();
                             mEmailView.requestFocus();
-                        }
-                    }
-                });
-                task1.execute("https://students.washington.edu/munkh92/test/login.php");
-//                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
             }
+
+
+
+
         }
+
+//                PostResponseAsyncTask task1 = new PostResponseAsyncTask(getActivity(), postData, new AsyncResponse() {
+//                    @Override
+//                    public void processFinish(String s) {
+//                        Toast.makeText( getActivity(),s, Toast.LENGTH_LONG).show();
+//                        if(s.contains("success")){
+//                            Intent intent = new Intent(getActivity().getApplicationContext(), DashboardActivity.class);
+//                            startActivity(intent);
+//                            Toast.makeText( getActivity(),"Login Sucessful", Toast.LENGTH_LONG).show();
+//
+//
+//                        }else{
+//                            Toast.makeText( getActivity(),"Login Failed", Toast.LENGTH_LONG).show();
+//                            mEmailView.requestFocus();
+//                        }
+//                    }
+//                });
+//                task1.execute("https://students.washington.edu/munkh92/test/login.php");
+//                finish();
+
 
         @Override
         protected void onCancelled() {
