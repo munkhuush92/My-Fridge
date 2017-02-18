@@ -26,10 +26,6 @@ public class AddItemFragment extends Fragment {
     //private ItemAddListener mListener;
     private final static String ITEM_ADD_URL
             = "http://cssgate.insttech.washington.edu/~iann91/addItem.php?";
-    private final static String ITEM_UPDATE_URL
-            = "http://cssgate.insttech.washington.edu/~iann91/updateItem.php?";
-    private final static String ITEM_DELETE_URL
-            = "http://cssgate.insttech.washington.edu/~iann91/deleteItem.php?";
     private EditText mItemNameEditText;
     private EditText mItemQuantityEditText;
     private EditText mFoodTypeEditText;
@@ -79,23 +75,7 @@ public class AddItemFragment extends Fragment {
             }
         });
 
-        Button updateItemButton = (Button) v.findViewById(R.id.update_item_button);
-        updateItemButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = buildCourseURL(v, ITEM_UPDATE_URL);
-                mListener.addItem(url);
-            }
-        });
 
-        Button deleteItemButton = (Button) v.findViewById(R.id.delete_item_button);
-        deleteItemButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = buildCourseURL(v, ITEM_DELETE_URL);
-                mListener.addItem(url);
-            }
-        });
 
         return v;
     }
@@ -105,16 +85,16 @@ public class AddItemFragment extends Fragment {
         StringBuilder sb = new StringBuilder(type);
 
         try {
-            String courseShortDesc = mItemNameEditText.getText().toString();
+            String itemName = mItemNameEditText.getText().toString();
             sb.append("&nameFoodItem=");
-            sb.append(URLEncoder.encode(courseShortDesc, "UTF-8"));
-            String courseLongDesc = mItemQuantityEditText.getText().toString();
+            sb.append(URLEncoder.encode(itemName, "UTF-8"));
+            String itemQuantity = mItemQuantityEditText.getText().toString();
             sb.append("&sizeFoodItem=");
-            sb.append(URLEncoder.encode(courseLongDesc, "UTF-8"));
+            sb.append(URLEncoder.encode(itemQuantity, "UTF-8"));
             sb.append("&PersonID=" + mPersonID);
-            String coursePrereqs = mFoodTypeEditText.getText().toString();
+            String foodType = mFoodTypeEditText.getText().toString();
             sb.append("&foodType=");
-            sb.append(URLEncoder.encode(coursePrereqs, "UTF-8"));
+            sb.append(URLEncoder.encode(foodType, "UTF-8"));
 
         }
         catch(Exception e) {

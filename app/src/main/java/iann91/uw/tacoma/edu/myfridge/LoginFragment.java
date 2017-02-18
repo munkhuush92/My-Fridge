@@ -324,26 +324,6 @@ public class LoginFragment extends Fragment {
 
         }
 
-//                PostResponseAsyncTask task1 = new PostResponseAsyncTask(getActivity(), postData, new AsyncResponse() {
-//                    @Override
-//                    public void processFinish(String s) {
-//                        Toast.makeText( getActivity(),s, Toast.LENGTH_LONG).show();
-//                        if(s.contains("success")){
-//                            Intent intent = new Intent(getActivity().getApplicationContext(), DashboardActivity.class);
-//                            startActivity(intent);
-//                            Toast.makeText( getActivity(),"Login Sucessful", Toast.LENGTH_LONG).show();
-//
-//
-//                        }else{
-//                            Toast.makeText( getActivity(),"Login Failed", Toast.LENGTH_LONG).show();
-//                            mEmailView.requestFocus();
-//                        }
-//                    }
-//                });
-//                task1.execute("https://students.washington.edu/munkh92/test/login.php");
-//                finish();
-
-
         @Override
         protected void onCancelled() {
             mAuthTask = null;

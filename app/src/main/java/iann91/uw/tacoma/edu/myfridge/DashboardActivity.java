@@ -34,7 +34,8 @@ public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         DashboardFragment.OnDashboardFragmentInteractionListener,
         ItemFragment.OnListFragmentInteractionListener,
-        AddItemFragment.ItemAddListener{
+        AddItemFragment.ItemAddListener,
+        ItemDetailFragment.ItemAddListener{
 
     protected DrawerLayout mDrawer;
 

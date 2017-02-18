@@ -24,34 +24,16 @@
         android:layout_height="wrap_content"
         android:hint="Item Type: ie: Dairy"
         android:id="@+id/add_item_type" />
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <Button
+        android:id="@+id/add_item_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/add_item_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Add Item"
-            android:onClick="addItem" />
+        android:layout_gravity="right"
+        android:text="Add Item"
+        android:onClick="addItem" />
 
-        <Button
-            android:id="@+id/update_item_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Update Item"
-            android:onClick="addItem" />
 
-        <Button
-            android:id="@+id/delete_item_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Delete Item"
-            android:onClick="addItem" />
-    </LinearLayout>
 
 
 </LinearLayout>

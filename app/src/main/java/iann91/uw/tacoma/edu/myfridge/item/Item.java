@@ -11,14 +11,16 @@ import java.util.List;
  * Created by imnic on 2/15/2017.
  */
 
+/**
+ *
+ */
 public class Item implements Serializable{
-    public static final String ID = "idFoodItem", ITEM_NAME = "nameFoodItem"
+    public static final String ITEM_NAME = "nameFoodItem"
             , ITEM_QUANTITY = "sizeFoodItem", PERSON_ID = "PersonID", ITEM_TYPE = "foodType";
 
-    private String mItemId, mItemName, mItemQuantity, mPersonID, mItemType;
+    private String mItemName, mItemQuantity, mPersonID, mItemType;
 
-    public Item(String mItemId, String mItemName, String mItemQuantity, String mPersonID, String mItemType) {
-        this.mItemId = mItemId;
+    public Item(String mItemName, String mItemQuantity, String mPersonID, String mItemType) {
         this.mItemName = mItemName;
         this.mItemQuantity = mItemQuantity;
         this.mPersonID = mPersonID;
@@ -33,16 +35,8 @@ public class Item implements Serializable{
         this.mItemType = mItemType;
     }
 
-    public String getmItemId() {
-        return mItemId;
-    }
-
     public static String getmPersonId() {
         return PERSON_ID;
-    }
-
-    public void setmItemId(String mItemId) {
-        this.mItemId = mItemId;
     }
 
     public String getmItemName() {
@@ -75,8 +69,8 @@ public class Item implements Serializable{
 
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
-                    Item item = new Item(obj.getString(Item.ID), obj.getString(Item.ITEM_NAME)
-                            , obj.getString(Item.ITEM_QUANTITY), obj.getString(Item.PERSON_ID), obj.getString(Item.ITEM_TYPE));
+                    Item item = new Item(obj.getString(Item.ITEM_NAME), obj.getString(Item.ITEM_QUANTITY),
+                            obj.getString(Item.PERSON_ID), obj.getString(Item.ITEM_TYPE));
                     itemList.add(item);
                 }
             } catch (JSONException e) {

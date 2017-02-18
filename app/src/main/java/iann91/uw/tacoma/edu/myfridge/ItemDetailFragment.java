@@ -1,13 +1,20 @@
 package iann91.uw.tacoma.edu.myfridge;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.net.URLEncoder;
 
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
@@ -17,11 +24,18 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
  */
 public class ItemDetailFragment extends Fragment {
     public final static String COURSE_ITEM_SELECTED = "course_selected";
+    private final static String ITEM_UPDATE_URL
+            = "http://cssgate.insttech.washington.edu/~iann91/updateItem.php?";
+    private final static String ITEM_DELETE_URL
+            = "http://cssgate.insttech.washington.edu/~iann91/deleteItem.php?";
 
-    private TextView mItemIdTextView;
-    private TextView mItemNameTextView;
-    private TextView mItemQuantityTextView;
-    private TextView mItemTypeTextView;
+    private EditText mItemNameTextView;
+    private EditText mItemQuantityTextView;
+    private EditText mItemTypeTextView;
+    private ItemAddListener mListener;
+    private String mItemName, mItemQuantity, mItemType;
+    private int mPersonID;
+    private Item mItem;
 
 
     public ItemDetailFragment() {
@@ -32,25 +46,64 @@ public class ItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_item_detail, container, false);
-        mItemIdTextView = (TextView) view.findViewById(R.id.item_id);
-        mItemNameTextView = (TextView) view.findViewById(R.id.item_name);
-        mItemQuantityTextView = (TextView) view.findViewById(R.id.item_quantity);
-        mItemTypeTextView = (TextView) view.findViewById(R.id.item_type);
+        View v =  inflater.inflate(R.layout.fragment_item_detail, container, false);
+        mItemNameTextView = (EditText) v.findViewById(R.id.item_name);
+        mItemQuantityTextView = (EditText) v.findViewById(R.id.item_quantity);
+        mItemTypeTextView = (EditText) v.findViewById(R.id.item_type);
+        mPersonID =  getActivity().getIntent().getIntExtra("id", 0);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
         floatingActionButton.hide();
+        Button updateItemButton = (Button) v.findViewById(R.id.update_item_button);
+        updateItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem.setmItemName(mItemNameTextView.getText().toString());
+                mItem.setmItemQuantity(mItemQuantityTextView.getText().toString());
+                mItem.setmItemType(mItemTypeTextView.getText().toString());
+                updateView(mItem);
+                String url = buildCourseURL(v, ITEM_UPDATE_URL);
+                mListener.addItem(url);
+            }
+        });
 
-        return view;
+        Button deleteItemButton = (Button) v.findViewById(R.id.delete_item_button);
+        deleteItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = buildCourseURL(v, ITEM_DELETE_URL);
+                mListener.addItem(url);
+            }
+        });
+
+        return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AddItemFragment.ItemAddListener) {
+            mListener = (ItemDetailFragment.ItemAddListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement ItemAddListener");
+        }
     }
 
     public void updateView(Item item) {
         if (item != null) {
-            mItemIdTextView.setText("Item id: " + item.getmItemId());
-            mItemNameTextView.setText("Name: " + item.getmItemName());
-            mItemQuantityTextView.setText("Quantity: " + item.getmItemQuantity());
-            mItemTypeTextView.setText("Type: " + item.getmItemType());
+            mItemNameTextView.setText(item.getmItemName());
+            mItemQuantityTextView.setText(item.getmItemQuantity());
+            mItemTypeTextView.setText(item.getmItemType());
+
+
+            mItemName = item.getmItemName();
+            mItemName = mItemName.replaceAll(" ", "%20");
+            mItemQuantity = item.getmItemQuantity();
+            mItemQuantity = mItemQuantity.replaceAll(" ", "%20");
+            mItemType = item.getmItemType();
+            mItemType = mItemType.replaceAll(" ", "%20");
         }
     }
 
@@ -65,8 +118,37 @@ public class ItemDetailFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             // Set article based on argument passed in
-            updateView((Item) args.getSerializable(COURSE_ITEM_SELECTED));
+            mItem = (Item) args.getSerializable(COURSE_ITEM_SELECTED);
+            updateView(mItem);
         }
+    }
+
+    private String buildCourseURL(View v, String type) {
+
+        StringBuilder sb = new StringBuilder(type);
+
+        try {
+            sb.append("nameFoodItem=");
+            sb.append(mItemName);
+            sb.append("&sizeFoodItem=");
+            sb.append(mItemQuantity);
+            sb.append("&PersonID=");
+            sb.append(mPersonID);
+            sb.append("&foodType=");
+            sb.append(mItemType);
+            Log.i("CHECK!!!", sb.toString());
+
+        }
+        catch(Exception e) {
+            Toast.makeText(v.getContext(), "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+        return sb.toString();
+    }
+
+
+    public interface ItemAddListener {
+        public void addItem(String url);
     }
 
 
