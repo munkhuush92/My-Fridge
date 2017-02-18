@@ -1,4 +1,4 @@
-package iann91.uw.tacoma.edu.myfridge;
+package iann91.uw.tacoma.edu.myfridge.Inventory;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,12 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import iann91.uw.tacoma.edu.myfridge.MyItemRecyclerViewAdapter;
+import iann91.uw.tacoma.edu.myfridge.R;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 import java.io.BufferedReader;

@@ -1,4 +1,4 @@
-package iann91.uw.tacoma.edu.myfridge;
+package iann91.uw.tacoma.edu.myfridge.Authenticate;
 
 
 import android.content.Context;
@@ -21,6 +21,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import iann91.uw.tacoma.edu.myfridge.R;
 
 
 /**

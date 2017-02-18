@@ -1,4 +1,4 @@
-package iann91.uw.tacoma.edu.myfridge;
+package iann91.uw.tacoma.edu.myfridge.Dashboard;
 
 
 import android.content.Context;
@@ -9,6 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import iann91.uw.tacoma.edu.myfridge.CalendarFragment;
+import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
+import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
+import iann91.uw.tacoma.edu.myfridge.MyRecipesFragment;
+import iann91.uw.tacoma.edu.myfridge.PlanWeekFragment;
+import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
+import iann91.uw.tacoma.edu.myfridge.SearchRecipesFragment;
 
 
 /**

@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/background"
-    tools:context="iann91.uw.tacoma.edu.myfridge.LoginFragment">
+    tools:context="iann91.uw.tacoma.edu.myfridge.Authenticate.LoginFragment">
 
     <!-- Login progress -->
 

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import iann91.uw.tacoma.edu.myfridge.ItemFragment.OnListFragmentInteractionListener;
+import iann91.uw.tacoma.edu.myfridge.Inventory.ItemFragment.OnListFragmentInteractionListener;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 

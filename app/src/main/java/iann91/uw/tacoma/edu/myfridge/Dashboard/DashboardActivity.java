@@ -1,10 +1,8 @@
-package iann91.uw.tacoma.edu.myfridge;
+package iann91.uw.tacoma.edu.myfridge.Dashboard;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,6 +26,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import iann91.uw.tacoma.edu.myfridge.CalendarFragment;
+import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
+import iann91.uw.tacoma.edu.myfridge.Inventory.AddItemFragment;
+import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
+import iann91.uw.tacoma.edu.myfridge.Inventory.ItemDetailFragment;
+import iann91.uw.tacoma.edu.myfridge.Inventory.ItemFragment;
+import iann91.uw.tacoma.edu.myfridge.MyRecipesFragment;
+import iann91.uw.tacoma.edu.myfridge.PlanWeekFragment;
+import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
+import iann91.uw.tacoma.edu.myfridge.SearchRecipesFragment;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 public class DashboardActivity extends AppCompatActivity

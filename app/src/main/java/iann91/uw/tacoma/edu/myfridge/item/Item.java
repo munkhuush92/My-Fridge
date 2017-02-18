@@ -8,11 +8,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by imnic on 2/15/2017.
- */
-
-/**
- *
+ * Holds the information for specific grocery item.
+ * @author iann91 munkh92
+ * @version 1.0
  */
 public class Item implements Serializable{
     public static final String ITEM_NAME = "nameFoodItem"
@@ -20,6 +18,13 @@ public class Item implements Serializable{
 
     private String mItemName, mItemQuantity, mPersonID, mItemType;
 
+    /**
+     * Initializes item with given parameters.
+     * @param mItemName name of item.
+     * @param mItemQuantity item quantity.
+     * @param mPersonID person id for item.
+     * @param mItemType type of item.
+     */
     public Item(String mItemName, String mItemQuantity, String mPersonID, String mItemType) {
         this.mItemName = mItemName;
         this.mItemQuantity = mItemQuantity;

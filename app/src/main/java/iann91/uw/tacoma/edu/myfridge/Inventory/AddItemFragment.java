@@ -1,4 +1,4 @@
-package iann91.uw.tacoma.edu.myfridge;
+package iann91.uw.tacoma.edu.myfridge.Inventory;
 
 
 import android.content.Context;
@@ -15,9 +15,13 @@ import android.widget.Toast;
 
 import java.net.URLEncoder;
 
+import iann91.uw.tacoma.edu.myfridge.R;
+
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for adding an item to the database.
+ * @author imnich91 munkh92
+ * @version 1.0
  */
 public class AddItemFragment extends Fragment {
 

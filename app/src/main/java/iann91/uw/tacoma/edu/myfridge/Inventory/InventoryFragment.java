@@ -1,4 +1,4 @@
-package iann91.uw.tacoma.edu.myfridge;
+package iann91.uw.tacoma.edu.myfridge.Inventory;
 
 
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import iann91.uw.tacoma.edu.myfridge.item.Item;
+import iann91.uw.tacoma.edu.myfridge.R;
 
 
 /**
