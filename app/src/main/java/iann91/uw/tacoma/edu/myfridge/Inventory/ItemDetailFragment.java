@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import iann91.uw.tacoma.edu.myfridge.R;
@@ -18,7 +19,9 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for displaying details about items in the inventory.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class ItemDetailFragment extends Fragment {
     public final static String COURSE_ITEM_SELECTED = "course_selected";
@@ -27,9 +30,9 @@ public class ItemDetailFragment extends Fragment {
     private final static String ITEM_DELETE_URL
             = "http://cssgate.insttech.washington.edu/~iann91/deleteItem.php?";
 
-    private EditText mItemNameTextView;
-    private EditText mItemQuantityTextView;
-    private EditText mItemTypeTextView;
+    private EditText mItemQuantityEditText;
+    private TextView mItemNameTextView,  mItemQuantityTextView, mItemTypeTextView;
+
     private ItemAddListener mListener;
     private String mItemName, mItemQuantity, mItemType;
     private int mPersonID;
@@ -40,14 +43,22 @@ public class ItemDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Initializes necessary fields and views to display fragment initially.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v =  inflater.inflate(R.layout.fragment_item_detail, container, false);
-        mItemNameTextView = (EditText) v.findViewById(R.id.item_name);
-        mItemQuantityTextView = (EditText) v.findViewById(R.id.item_quantity);
-        mItemTypeTextView = (EditText) v.findViewById(R.id.item_type);
+        mItemNameTextView = (TextView) v.findViewById(R.id.item_name_text);
+        mItemQuantityTextView = (TextView) v.findViewById(R.id.item_quantity_text);
+        mItemTypeTextView = (TextView) v.findViewById(R.id.item_type_text);
+        mItemQuantityEditText = (EditText) v.findViewById(R.id.item_quantity);
         mPersonID =  getActivity().getIntent().getIntExtra("id", 0);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -57,9 +68,7 @@ public class ItemDetailFragment extends Fragment {
         updateItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItem.setmItemName(mItemNameTextView.getText().toString());
-                mItem.setmItemQuantity(mItemQuantityTextView.getText().toString());
-                mItem.setmItemType(mItemTypeTextView.getText().toString());
+                mItem.setmItemQuantity(mItemQuantityEditText.getText().toString());
                 updateView(mItem);
                 String url = buildCourseURL(v, ITEM_UPDATE_URL);
                 mListener.addItem(url);
@@ -78,6 +87,10 @@ public class ItemDetailFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Initializes the listener to ItemAddListener when attaching.
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -89,12 +102,15 @@ public class ItemDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * Updates the view to display item information.
+     * @param item
+     */
     public void updateView(Item item) {
         if (item != null) {
-            mItemNameTextView.setText(item.getmItemName());
-            mItemQuantityTextView.setText(item.getmItemQuantity());
-            mItemTypeTextView.setText(item.getmItemType());
-
+            mItemNameTextView.setText("Item Name: " + item.getmItemName());
+            mItemQuantityEditText.setText(item.getmItemQuantity());
+            mItemTypeTextView.setText("Item type: " + item.getmItemType());
 
             mItemName = item.getmItemName();
             mItemName = mItemName.replaceAll(" ", "%20");
@@ -105,6 +121,9 @@ public class ItemDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * Updats view when fragment is first loaded.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -121,6 +140,12 @@ public class ItemDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * Builds the url for updating or deleting a course.
+     * @param v
+     * @param type
+     * @return
+     */
     private String buildCourseURL(View v, String type) {
 
         StringBuilder sb = new StringBuilder(type);
@@ -134,7 +159,6 @@ public class ItemDetailFragment extends Fragment {
             sb.append(mPersonID);
             sb.append("&foodType=");
             sb.append(mItemType);
-            Log.i("CHECK!!!", sb.toString());
 
         }
         catch(Exception e) {
@@ -144,7 +168,9 @@ public class ItemDetailFragment extends Fragment {
         return sb.toString();
     }
 
-
+    /**
+     * Interface for updating and deleting an item from the database.
+     */
     public interface ItemAddListener {
         public void addItem(String url);
     }

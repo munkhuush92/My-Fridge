@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Will display a calendar for adding recipes for days of week.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class CalendarFragment extends Fragment {
 

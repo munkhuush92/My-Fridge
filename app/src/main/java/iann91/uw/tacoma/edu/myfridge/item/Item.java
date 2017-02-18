@@ -62,15 +62,15 @@ public class Item implements Serializable{
 
     /**
      * Parses the json string, returns an error message if unsuccessful.
-     * Returns course list if success.
-     * @param courseJSON
+     * Returns item list if success.
+     * @param itemJSON
      * @return reason or null if successful.
      */
-    public static String parseItemJSON(String courseJSON, List<Item> itemList) {
+    public static String parseItemJSON(String itemJSON, List<Item> itemList) {
         String reason = null;
-        if (courseJSON != null) {
+        if (itemJSON != null) {
             try {
-                JSONArray arr = new JSONArray(courseJSON);
+                JSONArray arr = new JSONArray(itemJSON);
 
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);

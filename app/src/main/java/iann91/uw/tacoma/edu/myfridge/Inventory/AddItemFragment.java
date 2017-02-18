@@ -40,6 +40,10 @@ public class AddItemFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Sets listener to ItemAddListener when attached.
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -52,7 +56,13 @@ public class AddItemFragment extends Fragment {
     }
 
 
-
+    /**
+     * Initializes necessary fields and views for fragment to display.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,9 +94,15 @@ public class AddItemFragment extends Fragment {
         return v;
     }
 
-    private String buildCourseURL(View v, String type) {
+    /**
+     * Builds the url for adding an item to the database.
+     * @param v
+     * @param url url to add parameters to.
+     * @return url for adding item.
+     */
+    private String buildCourseURL(View v, String url) {
 
-        StringBuilder sb = new StringBuilder(type);
+        StringBuilder sb = new StringBuilder(url);
 
         try {
             String itemName = mItemNameEditText.getText().toString();
@@ -108,7 +124,9 @@ public class AddItemFragment extends Fragment {
         return sb.toString();
     }
 
-
+    /**
+     * Interface for adding an item to the database.
+     */
     public interface ItemAddListener {
         public void addItem(String url);
     }

@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for scanning items to add to inventory.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class ScannerFragment extends Fragment {
 

@@ -13,7 +13,8 @@ import iann91.uw.tacoma.edu.myfridge.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to display the users inventory.
+ * @author iann91 Munkh92
  */
 public class InventoryFragment extends Fragment {
 
@@ -21,6 +22,13 @@ public class InventoryFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Initializes necessary fields and view to display fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

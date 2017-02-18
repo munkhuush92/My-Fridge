@@ -25,9 +25,18 @@ import iann91.uw.tacoma.edu.myfridge.R;
 
 /**
  * A login screen that offers login via email/password.
+ * @author iann91 munkh92
+ * @version 1.0
  */
-public class LoginActivity extends FragmentActivity implements LoginFragment.OnListFragmentInteractionListener, RegistrationFragment.UserRegisterListener {
+public class LoginActivity extends FragmentActivity implements LoginFragment.OnListFragmentInteractionListener
+        , RegistrationFragment.UserRegisterListener {
     private boolean mRegisterationSuccessfull = false;
+
+    /**
+     * Initializes fields and updates view for login.
+     * Launches login fragment.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +65,10 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
         }
     }
 
+    /**
+     * Replaces current fragment with the fragment passed in.
+     * @param fragment to change to.
+     */
     @Override
     public void onListFragmentInteraction(Fragment fragment) {
         // Capture the course fragment from the activity layout
@@ -68,7 +81,11 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
         ;
     }
 
-
+    /**
+     * Creates a new Registration task and executes it.
+     * Starts dashboard activity if successful.
+     * @param url for registration php file.
+     */
     @Override
     public void registerUser(String url) {
 
@@ -84,30 +101,38 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
 
     }
 
+    /**
+     * Task for registering a user.
+     */
     private class RegisterTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
+        /**
+         * Attempts to register a user. Returns Json object.
+         * @param urls url for registration php file.
+         * @return json object.
+         */
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
             HttpURLConnection urlConnection = null;
-            for (String url : urls) {
-                try {
-                    URL urlObject = new URL(url);
-                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    for (String url : urls) {
+                        try {
+                            URL urlObject = new URL(url);
+                            urlConnection = (HttpURLConnection) urlObject.openConnection();
 
-                    InputStream content = urlConnection.getInputStream();
+                            InputStream content = urlConnection.getInputStream();
 
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        response += s;
-                    }
+                            BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                            String s = "";
+                            while ((s = buffer.readLine()) != null) {
+                                response += s;
+                            }
 
-                } catch (Exception e) {
+                        } catch (Exception e) {
                     response = "Unable to add course, Reason: "
                             + e.getMessage();
                 } finally {
@@ -120,11 +145,8 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
 
 
         /**
-         * It checks to see if there was a problem with the URL(Network) which is when an
-         * exception is caught. It tries to call the parse Method and checks to see if it was successful.
-         * If not, it displays the exception.
-         *
-         * @param result
+         * Receives json object and checks if registration was successful.
+         * @param result json object returned.
          */
         @Override
         protected void onPostExecute(String result) {

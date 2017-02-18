@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for searching recipes online.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class SearchRecipesFragment extends Fragment {
 
