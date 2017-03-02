@@ -112,5 +112,4 @@ public class AddItemFragment extends Fragment {
     public interface ItemAddListener {
         public void addItem(String url);
     }
-
 }

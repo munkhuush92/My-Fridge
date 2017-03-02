@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import iann91.uw.tacoma.edu.myfridge.Recipe.RecipeFragment;
+import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SearchRecipesFragment extends Fragment {
 
+    private RecipeFragment.OnListFragmentInteractionListener mListener;
 
     public SearchRecipesFragment() {
         // Required empty public constructor
@@ -27,7 +31,11 @@ public class SearchRecipesFragment extends Fragment {
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
         floatingActionButton.hide();
+
+
+
         return inflater.inflate(R.layout.fragment_search_recipes, container, false);
     }
+
 
 }
