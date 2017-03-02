@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/search_recipes_frag"
+    android:id="@+id/recipe_container"
     tools:context="iann91.uw.tacoma.edu.myfridge.SearchRecipesFragment">
 
     <!-- TODO: Update blank fragment layout -->

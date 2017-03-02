@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Item implements Serializable{
     public static final String ITEM_NAME = "nameFoodItem"
-            , ITEM_QUANTITY = "sizeFoodItem", PERSON_ID = "PersonID", ITEM_TYPE = "foodType";
+                , ITEM_QUANTITY = "sizeFoodItem", PERSON_ID = "PersonID", ITEM_TYPE = "foodType";
 
     private String mItemName, mItemQuantity, mPersonID, mItemType;
 
