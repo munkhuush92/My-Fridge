@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Displays the list of grocery items the user needs to buy.
  */
 public class GroceryListFragment extends Fragment {
 

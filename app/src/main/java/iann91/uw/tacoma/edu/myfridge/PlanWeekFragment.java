@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Will be used to plan the week of recipes for user.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class PlanWeekFragment extends Fragment {
 

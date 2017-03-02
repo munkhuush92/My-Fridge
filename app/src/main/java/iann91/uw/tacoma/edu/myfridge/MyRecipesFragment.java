@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Displays the list of recipes saved.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class MyRecipesFragment extends Fragment {
 

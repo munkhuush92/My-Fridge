@@ -39,16 +39,13 @@ import iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardActivity;
 import iann91.uw.tacoma.edu.myfridge.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Login fragment for handling logging in to the app.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class LoginFragment extends Fragment {
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+
     private UserLoginTask mAuthTask = null;
-
-
-    // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -59,7 +56,13 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * Initializes fields and updates view for login fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,7 +94,6 @@ public class LoginFragment extends Fragment {
 
         mLoginFormView = view.findViewById(R.id.login_form);
         mProgressView = view.findViewById(R.id.login_progress);
-        // BUTTON
         Button btnSearch = (Button) view.findViewById(R.id.register_button);
         btnSearch.setOnClickListener(new View.OnClickListener() {
 
@@ -99,7 +101,6 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.register_button:
-                        //what to put here
                         showOtherFragment();
                         break;
                 }
@@ -109,6 +110,10 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Attempts to login to the app.
+     * Creates and executes a login Async task.
+     */
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -156,11 +161,21 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Checks to make sure email is valid.
+     * @param email email entered.
+     * @return whether or not email is valid.
+     */
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
+    /**
+     * Checks to make sure password is valid.
+     * @param password password entered.
+     * @return whether or not password is valid.
+     */
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
@@ -252,7 +267,7 @@ public class LoginFragment extends Fragment {
                 }
 
             } catch (Exception e) {
-                response = "Unable to add course, Reason: "
+                response = "Unable to login, Reason: "
                         + e.getMessage();
             } finally {
                 if (urlConnection != null)
@@ -302,6 +317,10 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Initializes the Listener when fragment attaches.
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -313,6 +332,9 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Swaps between login and registration fragment.
+     */
     public void showOtherFragment()
     {
         Fragment registrationFragment = new RegistrationFragment();
@@ -320,6 +342,9 @@ public class LoginFragment extends Fragment {
         mListener.onListFragmentInteraction(registrationFragment);
     }
 
+    /**
+     * Uninitializes listener when it detaches.
+     */
     @Override
     public void onDetach() {
         super.onDetach();

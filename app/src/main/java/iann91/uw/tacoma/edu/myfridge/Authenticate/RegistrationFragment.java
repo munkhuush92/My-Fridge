@@ -26,7 +26,9 @@ import iann91.uw.tacoma.edu.myfridge.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment for registering account.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class RegistrationFragment extends Fragment {
     private String Email, Password, FirstName, LastName;
@@ -38,9 +40,12 @@ public class RegistrationFragment extends Fragment {
     private EditText mFirstnameEditText;
     private EditText mLastnameEditText;
 
-    private final static String COURSE_ADD_URL
+    private final static String REGISTRATION_URL
             = "http://cssgate.insttech.washington.edu/~munkh92/register.php?";
 
+    /**
+     * Interface for registering the user.
+     */
     public interface UserRegisterListener {
         public void registerUser(String url);
     }
@@ -49,6 +54,10 @@ public class RegistrationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Initializes the listener when attaching.
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -56,11 +65,17 @@ public class RegistrationFragment extends Fragment {
             mListener = (UserRegisterListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement CourseAddListener");
+                    + " must implement UserRegistrationListener");
         }
     }
 
-
+    /**
+     * Initializes fields and sets up views for registration fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,11 +86,6 @@ public class RegistrationFragment extends Fragment {
         mPasswordEditText = (EditText) v.findViewById(R.id.password_input);
         mFirstnameEditText = (EditText) v.findViewById(R.id.Firstname_input);
         mLastnameEditText = (EditText) v.findViewById(R.id.Lastname_input);
-
-
-//        FloatingActionButton floatingActionButton = (FloatingActionButton)
-//                getActivity().findViewById(R.id.fab);
-//        floatingActionButton.show();
 
 
         Button registerButton = (Button) v.findViewById(R.id.fragRegisterbutton);
@@ -90,9 +100,14 @@ public class RegistrationFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Builds the url for registration.
+     * @param
+     * @return registration url.
+     */
     private String buildCourseURL(View v) {
 
-        StringBuilder sb = new StringBuilder(COURSE_ADD_URL);
+        StringBuilder sb = new StringBuilder(REGISTRATION_URL);
 
         try {
 

@@ -26,10 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * Displays a list of Items.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class ItemFragment extends Fragment {
 
@@ -50,6 +49,11 @@ public class ItemFragment extends Fragment {
      */
     public ItemFragment() {
     }
+
+    /**
+     * Initializes columns for displaying items.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,13 @@ public class ItemFragment extends Fragment {
         }
     }
 
+    /**
+     * initializes necessary fields and views to display the list of items.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,7 +96,10 @@ public class ItemFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * Initializes the listener when attached.
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -103,6 +117,9 @@ public class ItemFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * Async task for downloading the users items.
+     */
     private class DownloadItemsTask extends AsyncTask<String, Void, String> {
 
         @Override

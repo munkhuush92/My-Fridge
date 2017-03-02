@@ -21,7 +21,10 @@ import iann91.uw.tacoma.edu.myfridge.SearchRecipesFragment;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Dashboard fragment for displaying dashboard buttons for navigation.
+ * Main home screen of the application.
+ * @author iann91 Munkh92
+ * @version 1.0
  */
 public class DashboardFragment extends Fragment {
 
@@ -32,7 +35,13 @@ public class DashboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    /**
+     * Initializes the necessary fields and views for the fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,6 +118,10 @@ public class DashboardFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Sets listener to dashboard fragment listener when attached.
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

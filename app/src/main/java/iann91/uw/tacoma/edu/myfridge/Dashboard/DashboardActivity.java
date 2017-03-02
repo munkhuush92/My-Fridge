@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,6 +40,11 @@ import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
 import iann91.uw.tacoma.edu.myfridge.SearchRecipesFragment;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
+/**
+ * Dashboard activity that holds all of the fragments for the application.
+ * @author iann91 Munkh92
+ * @version 1.0
+ */
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         DashboardFragment.OnDashboardFragmentInteractionListener,
@@ -48,7 +54,10 @@ public class DashboardActivity extends AppCompatActivity
 
     protected DrawerLayout mDrawer;
 
-
+    /**
+     * Initializes fields and sets up the view.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +111,9 @@ public class DashboardActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Handles what happens to the navigation drawer when back is pressed on the device.
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -113,6 +125,11 @@ public class DashboardActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Creates options menu on navbar.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -120,6 +137,11 @@ public class DashboardActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Handles what happens when settings is selected on action bar.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -135,7 +157,11 @@ public class DashboardActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    /**
+     * Switches to necessary fragment when navigation item is selected.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -168,6 +194,10 @@ public class DashboardActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Swaps out current fragment with the fragment passed in.
+     * @param fragment to change to.
+     */
     @Override
     public void onDashboardFragmentInteraction(Fragment fragment) {
         // Capture the course fragment from the activity layout
@@ -181,7 +211,10 @@ public class DashboardActivity extends AppCompatActivity
     }
 
 
-
+    /**
+     * Creates item detail fragment and swaps it for current fragment when item is selected.
+     * @param item
+     */
     @Override
     public void onListFragmentInteraction(Item item) {
         ItemDetailFragment itemDetailFragment = new ItemDetailFragment();
@@ -197,6 +230,10 @@ public class DashboardActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Creats an AddItem async task and executes it.
+     * @param url
+     */
     @Override
     public void addItem(String url) {
         AddItemTask task = new AddItemTask();
@@ -257,7 +294,7 @@ public class DashboardActivity extends AppCompatActivity
                 JSONObject jsonObject = new JSONObject(result);
                 String status = (String) jsonObject.get("result");
                 if (status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), "Item successfully added!"
+                    Toast.makeText(getApplicationContext(), "Success!"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else {
@@ -267,6 +304,7 @@ public class DashboardActivity extends AppCompatActivity
                             .show();
                 }
             } catch (JSONException e) {
+                Log.i("HERE", result);
                 Toast.makeText(getApplicationContext(), "Something wrong with the data" +
                         e.getMessage(), Toast.LENGTH_LONG).show();
             }
