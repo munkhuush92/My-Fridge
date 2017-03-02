@@ -46,7 +46,7 @@ import iann91.uw.tacoma.edu.myfridge.R;
 public class LoginFragment extends Fragment {
 
     private UserLoginTask mAuthTask = null;
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -70,7 +70,7 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container,
                 false);
 
-        mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
+        mEmailView = (EditText) view.findViewById(R.id.email);
 
         mPasswordView = (EditText) view.findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -84,7 +84,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        Button mEmailSignInButton = (Button) view.findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) view.findViewById(R.id.login_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,13 +94,13 @@ public class LoginFragment extends Fragment {
 
         mLoginFormView = view.findViewById(R.id.login_form);
         mProgressView = view.findViewById(R.id.login_progress);
-        Button btnSearch = (Button) view.findViewById(R.id.register_button);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
+        TextView buttonRegistration = (TextView) view.findViewById(R.id.registration_button);
+        buttonRegistration.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.register_button:
+                    case R.id.registration_button:
                         showOtherFragment();
                         break;
                 }
