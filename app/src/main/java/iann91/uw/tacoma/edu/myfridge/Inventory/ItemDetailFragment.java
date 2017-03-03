@@ -33,7 +33,7 @@ public class ItemDetailFragment extends Fragment {
     private EditText mItemQuantityEditText;
     private TextView mItemNameTextView,  mItemQuantityTextView, mItemTypeTextView;
 
-    private ItemAddListener mListener;
+    private ItemAddDatabaseListener mListener;
     private String mItemName, mItemQuantity, mItemType;
     private int mPersonID;
     private Item mItem;
@@ -71,7 +71,7 @@ public class ItemDetailFragment extends Fragment {
                 mItem.setmItemQuantity(mItemQuantityEditText.getText().toString());
                 updateView(mItem);
                 String url = buildCourseURL(v, ITEM_UPDATE_URL);
-                mListener.addItem(url);
+                mListener.addItemDatabase(url);
             }
         });
 
@@ -80,7 +80,7 @@ public class ItemDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildCourseURL(v, ITEM_DELETE_URL);
-                mListener.addItem(url);
+                mListener.addItemDatabase(url);
             }
         });
 
@@ -94,8 +94,8 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AddItemFragment.ItemAddListener) {
-            mListener = (ItemDetailFragment.ItemAddListener) context;
+        if (context instanceof AddItemFragment.ItemAddDatabaseListener) {
+            mListener = (ItemDetailFragment.ItemAddDatabaseListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ItemAddListener");
@@ -171,8 +171,8 @@ public class ItemDetailFragment extends Fragment {
     /**
      * Interface for updating and deleting an item from the database.
      */
-    public interface ItemAddListener {
-        public void addItem(String url);
+    public interface ItemAddDatabaseListener {
+        public void addItemDatabase(String url);
     }
 
 

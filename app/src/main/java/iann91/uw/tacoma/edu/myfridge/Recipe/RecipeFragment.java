@@ -28,7 +28,7 @@ import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnRecipeFragmentInteractionListener}
  * interface.
  */
 public class RecipeFragment extends Fragment {
@@ -55,7 +55,7 @@ public class RecipeFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     /** Listener field for interacting with this Fragment (List). */
-    private OnListFragmentInteractionListener mListener;
+    private OnRecipeFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -143,8 +143,8 @@ public class RecipeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnRecipeFragmentInteractionListener) {
+            mListener = (OnRecipeFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -170,8 +170,8 @@ public class RecipeFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(RecipeContent item);
+    public interface OnRecipeFragmentInteractionListener {
+        void onRecipeFragmentInteraction(RecipeContent item);
     }
 
     /**

@@ -9,7 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 
 /**
@@ -17,6 +23,9 @@ import iann91.uw.tacoma.edu.myfridge.R;
  * @author iann91 Munkh92
  */
 public class InventoryFragment extends Fragment {
+
+    private Map<String, LinkedList<Item>> mySortedItems;
+    private LinkedList<Item> myItems;
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -29,9 +38,13 @@ public class InventoryFragment extends Fragment {
      * @param savedInstanceState
      * @return
      */
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mySortedItems = new HashMap<String, LinkedList<Item>>();
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_inventory, container,
@@ -58,5 +71,10 @@ public class InventoryFragment extends Fragment {
         return view;
     }
 
+//    public boolean addItem(Item theItem) {
+//        myItems.add(theItem);
+//        mySortedItems.put(theItem.getmItemType(), myItems);
+//        return true;
+//    }
 
 }

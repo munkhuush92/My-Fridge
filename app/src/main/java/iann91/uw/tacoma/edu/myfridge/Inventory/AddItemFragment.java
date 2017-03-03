@@ -25,7 +25,7 @@ import iann91.uw.tacoma.edu.myfridge.R;
  */
 public class AddItemFragment extends Fragment {
 
-    private ItemAddListener mListener;
+    private ItemAddDatabaseListener mListener;
 
     //private ItemAddListener mListener;
     private final static String ITEM_ADD_URL
@@ -47,8 +47,8 @@ public class AddItemFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ItemAddListener) {
-            mListener = (ItemAddListener) context;
+        if (context instanceof ItemAddDatabaseListener) {
+            mListener = (ItemAddDatabaseListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ItemAddListener");
@@ -85,7 +85,7 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildCourseURL(v, ITEM_ADD_URL);
-                mListener.addItem(url);
+                mListener.addItemDatabase(url);
             }
         });
 
@@ -127,7 +127,7 @@ public class AddItemFragment extends Fragment {
     /**
      * Interface for adding an item to the database.
      */
-    public interface ItemAddListener {
-        public void addItem(String url);
+    public interface ItemAddDatabaseListener {
+        public void addItemDatabase(String url);
     }
 }

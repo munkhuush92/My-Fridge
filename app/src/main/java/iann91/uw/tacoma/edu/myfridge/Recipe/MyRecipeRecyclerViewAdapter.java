@@ -20,7 +20,7 @@ import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent} and makes a call to the
- * specified {@link iann91.uw.tacoma.edu.myfridge.Recipe.RecipeFragment.OnListFragmentInteractionListener}.
+ * specified {@link iann91.uw.tacoma.edu.myfridge.Recipe.RecipeFragment.OnRecipeFragmentInteractionListener}.
  */
 public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRecyclerViewAdapter.ViewHolder> {
 
@@ -28,7 +28,7 @@ public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRe
     private final List<RecipeContent> mValues;
 
     /** Listener for interacting with the list of recipes. */
-    private final RecipeFragment.OnListFragmentInteractionListener mListener;
+    private final RecipeFragment.OnRecipeFragmentInteractionListener mListener;
 
     /**
      * Constructor for this class.
@@ -36,7 +36,7 @@ public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRe
      * @param items - the recipe items.
      * @param listener - the interaction listener.
      */
-    public MyRecipeRecyclerViewAdapter(List<RecipeContent> items, RecipeFragment.OnListFragmentInteractionListener
+    public MyRecipeRecyclerViewAdapter(List<RecipeContent> items, RecipeFragment.OnRecipeFragmentInteractionListener
             listener) {
         mValues = items;
         mListener = listener;
@@ -76,7 +76,7 @@ public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRe
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onRecipeFragmentInteraction(holder.mItem);
                 }
             }
         });

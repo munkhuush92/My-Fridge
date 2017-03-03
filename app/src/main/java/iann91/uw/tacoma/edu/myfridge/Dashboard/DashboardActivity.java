@@ -33,11 +33,12 @@ import iann91.uw.tacoma.edu.myfridge.Inventory.AddItemFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.ItemDetailFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.ItemFragment;
-import iann91.uw.tacoma.edu.myfridge.MyRecipesFragment;
 import iann91.uw.tacoma.edu.myfridge.PlanWeekFragment;
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.Recipe.RecipeDetailFragment;
+import iann91.uw.tacoma.edu.myfridge.Recipe.RecipeFragment;
+import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
 import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
-import iann91.uw.tacoma.edu.myfridge.SearchRecipesFragment;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 /**
@@ -49,8 +50,9 @@ public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         DashboardFragment.OnDashboardFragmentInteractionListener,
         ItemFragment.OnListFragmentInteractionListener,
-        AddItemFragment.ItemAddListener,
-        ItemDetailFragment.ItemAddListener{
+        AddItemFragment.ItemAddDatabaseListener,
+        ItemDetailFragment.ItemAddDatabaseListener,
+        RecipeFragment.OnRecipeFragmentInteractionListener{
 
     protected DrawerLayout mDrawer;
 
@@ -86,6 +88,8 @@ public class DashboardActivity extends AppCompatActivity
 
             }
         });
+
+        RecipeFragment recipeFragment = RecipeFragment.newInstance("LOL", false);
 
         if (findViewById(R.id.content_dashboard) != null) {
 
@@ -171,12 +175,14 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.inventory_dashboard) {
             fragment = new InventoryFragment();
         } else if (id == R.id.recipe_dashboard) {
-            fragment = new SearchRecipesFragment();
+            fragment = new RecipeFragment();
         } else if (id == R.id.grocery_dashboard) {
             fragment = new GroceryListFragment();
-        } else if (id == R.id.my_recipe_dash) {
-            fragment = new MyRecipesFragment();
-        } else if (id == R.id.scanner_dashboard) {
+        }
+//        else if (id == R.id.my_recipe_dash) {
+//            fragment = new MyRecipesFragment();
+//        }
+        else if (id == R.id.scanner_dashboard) {
             fragment = new ScannerFragment();
         } else if (id == R.id.plan_week_dashboard) {
             fragment = new PlanWeekFragment();
@@ -235,12 +241,27 @@ public class DashboardActivity extends AppCompatActivity
      * @param url
      */
     @Override
-    public void addItem(String url) {
+    public void addItemDatabase(String url) {
         AddItemTask task = new AddItemTask();
         task.execute(new String[]{url.toString()});
 
 // Takes you back to the previous fragment by popping the current fragment out.
         getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    @Override
+    public void onRecipeFragmentInteraction(RecipeContent item) {
+        RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(RecipeDetailFragment.RECIPE_ITEM_SELECTED, item);
+        recipeDetailFragment.setArguments(args);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_dashboard, recipeDetailFragment)
+                .addToBackStack(null)
+                .commit();
+
     }
 
     private class AddItemTask extends AsyncTask<String, Void, String> {
