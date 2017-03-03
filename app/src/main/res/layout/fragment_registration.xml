@@ -3,7 +3,8 @@
     android:gravity="top"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="iann91.uw.tacoma.edu.myfridge.RegistrationFragment">
+    android:id="@+id/registration_frag"
+    tools:context="iann91.uw.tacoma.edu.myfridge.Authenticate.RegistrationFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -74,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
-        android:id="@+id/button"
+        android:id="@+id/fragRegisterbutton"
         android:layout_below="@+id/textInputLayout4"
         android:layout_alignRight="@+id/editText"
         android:layout_alignEnd="@+id/editText" />
