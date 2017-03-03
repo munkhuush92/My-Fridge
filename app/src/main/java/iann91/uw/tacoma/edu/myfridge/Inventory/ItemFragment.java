@@ -20,6 +20,7 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class ItemFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private ItemAddLocallyListener mLocalListener;
     private static final String ITEM_URL
             = "http://cssgate.insttech.washington.edu/~iann91/downloaditems.php?cmd=items";
 
@@ -106,6 +108,7 @@ public class ItemFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof ItemFragment.OnListFragmentInteractionListener) {
             mListener = (ItemFragment.OnListFragmentInteractionListener) context;
+            mLocalListener = (ItemFragment.ItemAddLocallyListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -161,7 +164,7 @@ public class ItemFragment extends Fragment {
                 return;
             }
 
-            List<Item> itemList = new ArrayList<Item>();
+            ArrayList<Item> itemList = new ArrayList<Item>();
             result = Item.parseItemJSON(result, itemList);
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -173,6 +176,7 @@ public class ItemFragment extends Fragment {
             // Everything is good, show the list of courses.
             if (!itemList.isEmpty()) {
                 mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(itemList, mListener));
+                mLocalListener.addDownloadedItems(itemList);
             }
         }
 
@@ -192,6 +196,10 @@ public class ItemFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Item item);
+    }
+
+    public interface ItemAddLocallyListener {
+        public void addDownloadedItems(ArrayList<Item> theItems);
     }
 
 }

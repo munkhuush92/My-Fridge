@@ -14,8 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 
 /**
@@ -26,6 +28,7 @@ import iann91.uw.tacoma.edu.myfridge.R;
 public class AddItemFragment extends Fragment {
 
     private ItemAddDatabaseListener mListener;
+    private ItemAddLocallyListener mLocalListener;
 
     //private ItemAddListener mListener;
     private final static String ITEM_ADD_URL
@@ -34,6 +37,7 @@ public class AddItemFragment extends Fragment {
     private EditText mItemQuantityEditText;
     private EditText mFoodTypeEditText;
     private int mPersonID;
+    private Item mItem;
 
 
     public AddItemFragment() {
@@ -49,6 +53,7 @@ public class AddItemFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof ItemAddDatabaseListener) {
             mListener = (ItemAddDatabaseListener) context;
+            mLocalListener = (ItemAddLocallyListener)context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ItemAddListener");
@@ -86,11 +91,9 @@ public class AddItemFragment extends Fragment {
             public void onClick(View v) {
                 String url = buildCourseURL(v, ITEM_ADD_URL);
                 mListener.addItemDatabase(url);
+                mLocalListener.addItem(mItem);
             }
         });
-
-
-
         return v;
     }
 
@@ -115,7 +118,8 @@ public class AddItemFragment extends Fragment {
             String foodType = mFoodTypeEditText.getText().toString();
             sb.append("&foodType=");
             sb.append(URLEncoder.encode(foodType, "UTF-8"));
-
+            mItem = new Item(mItemNameEditText.getText().toString(),
+                    mItemQuantityEditText.getText().toString(), ""+mPersonID, mFoodTypeEditText.getText().toString());
         }
         catch(Exception e) {
             Toast.makeText(v.getContext(), "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
@@ -129,5 +133,9 @@ public class AddItemFragment extends Fragment {
      */
     public interface ItemAddDatabaseListener {
         public void addItemDatabase(String url);
+    }
+
+    public interface ItemAddLocallyListener {
+        public void addItem(Item item);
     }
 }

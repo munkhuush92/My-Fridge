@@ -4,11 +4,13 @@ package iann91.uw.tacoma.edu.myfridge.Inventory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,10 +24,9 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
  * Fragment to display the users inventory.
  * @author iann91 Munkh92
  */
-public class InventoryFragment extends Fragment {
+public class InventoryFragment extends Fragment{
 
-    private Map<String, LinkedList<Item>> mySortedItems;
-    private LinkedList<Item> myItems;
+
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -44,7 +45,7 @@ public class InventoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mySortedItems = new HashMap<String, LinkedList<Item>>();
+
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_inventory, container,
@@ -71,10 +72,8 @@ public class InventoryFragment extends Fragment {
         return view;
     }
 
-//    public boolean addItem(Item theItem) {
-//        myItems.add(theItem);
-//        mySortedItems.put(theItem.getmItemType(), myItems);
-//        return true;
-//    }
+
+
+
 
 }

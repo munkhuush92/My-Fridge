@@ -24,8 +24,13 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import iann91.uw.tacoma.edu.myfridge.CalendarFragment;
 import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
@@ -52,10 +57,14 @@ public class DashboardActivity extends AppCompatActivity
         ItemFragment.OnListFragmentInteractionListener,
         AddItemFragment.ItemAddDatabaseListener,
         ItemDetailFragment.ItemAddDatabaseListener,
-        RecipeFragment.OnRecipeFragmentInteractionListener{
+        RecipeFragment.OnRecipeFragmentInteractionListener,
+        AddItemFragment.ItemAddLocallyListener,
+        ItemDetailFragment.ItemDeleteLocallyListener,
+        ItemFragment.ItemAddLocallyListener{
 
     protected DrawerLayout mDrawer;
-
+    private Map<String, ArrayList<Item>> mySortedItems;
+    private ArrayList<Item> myItems;
     /**
      * Initializes fields and sets up the view.
      * @param savedInstanceState
@@ -66,6 +75,9 @@ public class DashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        myItems = new ArrayList<Item>();
+        mySortedItems = new HashMap<String, ArrayList<Item>>();
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -264,8 +276,68 @@ public class DashboardActivity extends AppCompatActivity
 
     }
 
-    private class AddItemTask extends AsyncTask<String, Void, String> {
+    @Override
+    public void addItem(Item theItem) {
+//        myItems.add(theItem);
+//        mySortedItems.put(theItem.getmItemType(), myItems);
+//        Log.i("HERE IS THE ITEMS: ", myItems.get(0).getmItemName());
+    }
 
+    @Override
+    public void deleteItem(String itemName, String itemType) {
+        ArrayList<Item> temp = mySortedItems.get(itemType);
+        for(int i = 0; i < temp.size(); i++) {
+            if(temp.get(i).getmItemName().equals(itemName)) {
+                Log.i("FOUND ITEM TO DELETE", temp.get(i).getmItemName());
+                Log.i("SIZE OF TEMP BEFORE", ""+ temp.size());
+                temp.remove(i);
+                Log.i("Size of temp after", "" + temp.size());
+                if(temp.size() == 0) {
+                    mySortedItems.remove(itemType);
+                } else {
+                    mySortedItems.put(itemType, temp);
+                }
+            }
+        }
+        ArrayList<Item> print;
+        for(String item: mySortedItems.keySet()) {
+            Log.i("Array TYPES", item);
+
+            print = mySortedItems.get(item);
+            for(int j = 0; j < print.size(); j++) {
+                Log.i("Array items", print.get(j).getmItemName());
+            }
+        }
+    }
+
+    @Override
+    public void addDownloadedItems(ArrayList<Item> theItems) {
+        boolean duplicateFound = false;
+        ArrayList<Item> tempList;
+        for(int i = 0; i < theItems.size(); i++) {
+            if(mySortedItems.containsKey(theItems.get(i).getmItemType())) {
+                tempList = mySortedItems.get(theItems.get(i).getmItemType());
+                for(int j = 0; j < tempList.size(); j++) {
+                    if(tempList.get(j).getmItemName().equals(theItems.get(i).getmItemName())) {
+                        duplicateFound = true;
+                    }
+                }
+                if(!duplicateFound) {
+                    tempList.add(theItems.get(i));
+                    mySortedItems.put(theItems.get(i).getmItemType(), tempList);
+                }
+
+            }else{
+                tempList = new ArrayList<Item>();
+                tempList.add(theItems.get(i));
+                mySortedItems.put(theItems.get(i).getmItemType(),tempList);
+            }
+        }
+        Log.i("Here sorted items ", "" + mySortedItems.size());
+//
+    }
+
+    private class AddItemTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -318,6 +390,7 @@ public class DashboardActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "Success!"
                             , Toast.LENGTH_LONG)
                             .show();
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to add: "
                                     + jsonObject.get("error")
