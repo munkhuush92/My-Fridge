@@ -9,6 +9,7 @@ android:fitsSystemWindows="true"
 tools:openDrawer="start"
 android:orientation="vertical"
 android:gravity="center"
+android:background="@color/background"
 tools:context="iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardFragment">
 
 

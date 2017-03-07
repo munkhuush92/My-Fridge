@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URLEncoder;
@@ -34,8 +35,9 @@ public class AddItemFragment extends Fragment {
             = "http://cssgate.insttech.washington.edu/~iann91/addItem.php?";
     private EditText mItemNameEditText;
     private EditText mItemQuantityEditText;
-    private EditText mFoodTypeEditText;
+    private TextView mFoodTypeTextView;
     private int mPersonID;
+    private String mCategory;
     private Item mItem;
 
 
@@ -71,10 +73,11 @@ public class AddItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_item, container, false);
-
+        mCategory = getArguments().getString("Category");
         mItemNameEditText = (EditText) v.findViewById(R.id.add_item_name);
         mItemQuantityEditText = (EditText) v.findViewById(R.id.add_item_quantity);
-        mFoodTypeEditText = (EditText) v.findViewById(R.id.add_item_type);
+        mFoodTypeTextView = (TextView) v.findViewById(R.id.item_type);
+        mFoodTypeTextView.setText(mCategory);
         mPersonID =  getActivity().getIntent().getIntExtra("id", 0);
 
 
@@ -112,11 +115,11 @@ public class AddItemFragment extends Fragment {
             sb.append("&sizeFoodItem=");
             sb.append(URLEncoder.encode(itemQuantity, "UTF-8"));
             sb.append("&PersonID=" + mPersonID);
-            String foodType = mFoodTypeEditText.getText().toString();
+            String foodType = mFoodTypeTextView.getText().toString();
             sb.append("&foodType=");
             sb.append(URLEncoder.encode(foodType, "UTF-8"));
             mItem = new Item(mItemNameEditText.getText().toString(),
-                    mItemQuantityEditText.getText().toString(), ""+mPersonID, mFoodTypeEditText.getText().toString());
+                    mItemQuantityEditText.getText().toString(), ""+mPersonID, mFoodTypeTextView.getText().toString());
         }
         catch(Exception e) {
             Toast.makeText(v.getContext(), "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)

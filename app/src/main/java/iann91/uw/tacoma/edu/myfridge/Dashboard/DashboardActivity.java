@@ -66,6 +66,7 @@ public class DashboardActivity extends AppCompatActivity
     private Map<String, ArrayList<Item>> mySortedItems;
     private ArrayList<Item> myItems;
     private static final String[] mCategories = {"Dairy", "Grains", "Vegetables", "Meat", "Fruit"};
+    private String mLastSelectedCategory;
     /**
      * Initializes fields and sets up the view.
      * @param savedInstanceState
@@ -97,6 +98,9 @@ public class DashboardActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 AddItemFragment addItemFragment = new AddItemFragment();
+                Bundle b = new Bundle();
+                b.putString("Category", mLastSelectedCategory);
+                addItemFragment.setArguments(b);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_dashboard, addItemFragment)
                         .addToBackStack(null)
@@ -243,6 +247,7 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     public void swapToItemFragment(Fragment fragment, String category) {
         // Capture the course fragment from the activity layout
+        mLastSelectedCategory = category;
         Bundle bundle = new Bundle();
         bundle.putString("Category", category);
         fragment.setArguments(bundle);

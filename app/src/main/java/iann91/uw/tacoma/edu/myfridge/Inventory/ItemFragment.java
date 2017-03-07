@@ -127,6 +127,7 @@ public class ItemFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mLocalListener = null;
     }
 
     /**
@@ -184,6 +185,7 @@ public class ItemFragment extends Fragment {
             // Everything is good, show the list of courses.
             if (!itemList.isEmpty()) {
                 myItems = mLocalListener.addDownloadedItems(itemList);
+                Log.i("My itess", myItems.get(mCategory).toString());
                 mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(myItems.get(mCategory), mListener));
 
             }
