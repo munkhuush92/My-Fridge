@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,9 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Displays a list of Items.
@@ -41,6 +44,8 @@ public class ItemFragment extends Fragment {
     private ItemAddLocallyListener mLocalListener;
     private static final String ITEM_URL
             = "http://cssgate.insttech.washington.edu/~iann91/downloaditems.php?cmd=items";
+    private String mCategory;
+    private Map <String, ArrayList<Item>> myItems;
 
 
     private RecyclerView mRecyclerView;
@@ -63,7 +68,7 @@ public class ItemFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-
+        myItems = new HashMap<>();
     }
 
     /**
@@ -76,6 +81,9 @@ public class ItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mCategory = getArguments().getString("Category");
+        Log.i("CATEGORY", mCategory);
+
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -175,8 +183,9 @@ public class ItemFragment extends Fragment {
 
             // Everything is good, show the list of courses.
             if (!itemList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(itemList, mListener));
-                mLocalListener.addDownloadedItems(itemList);
+                myItems = mLocalListener.addDownloadedItems(itemList);
+                mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(myItems.get(mCategory), mListener));
+
             }
         }
 
@@ -199,7 +208,7 @@ public class ItemFragment extends Fragment {
     }
 
     public interface ItemAddLocallyListener {
-        public void addDownloadedItems(ArrayList<Item> theItems);
+        Map<String,ArrayList<Item>> addDownloadedItems(ArrayList<Item> theItems);
     }
 
 }

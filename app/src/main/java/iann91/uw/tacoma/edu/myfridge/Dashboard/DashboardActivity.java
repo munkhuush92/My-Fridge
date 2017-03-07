@@ -58,13 +58,14 @@ public class DashboardActivity extends AppCompatActivity
         AddItemFragment.ItemAddDatabaseListener,
         ItemDetailFragment.ItemAddDatabaseListener,
         RecipeFragment.OnRecipeFragmentInteractionListener,
-        AddItemFragment.ItemAddLocallyListener,
         ItemDetailFragment.ItemDeleteLocallyListener,
-        ItemFragment.ItemAddLocallyListener{
+        ItemFragment.ItemAddLocallyListener,
+        InventoryFragment.SwapInventoryFragListener{
 
     protected DrawerLayout mDrawer;
     private Map<String, ArrayList<Item>> mySortedItems;
     private ArrayList<Item> myItems;
+    private static final String[] mCategories = {"Dairy", "Grains", "Vegetables", "Meat", "Fruit"};
     /**
      * Initializes fields and sets up the view.
      * @param savedInstanceState
@@ -78,6 +79,9 @@ public class DashboardActivity extends AppCompatActivity
 
         myItems = new ArrayList<Item>();
         mySortedItems = new HashMap<String, ArrayList<Item>>();
+        for(int i = 0; i < mCategories.length; i++) {
+            mySortedItems.put(mCategories[i], new ArrayList<Item>());
+        }
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -139,6 +143,10 @@ public class DashboardActivity extends AppCompatActivity
         else {
             super.onBackPressed();
         }
+    }
+
+    public String setCategoryInventory(String category) {
+        return category;
     }
 
     /**
@@ -228,6 +236,24 @@ public class DashboardActivity extends AppCompatActivity
         ;
     }
 
+    /**
+     * Swaps to item fragment along with category name
+     * @param fragment to change to.
+     */
+    @Override
+    public void swapToItemFragment(Fragment fragment, String category) {
+        // Capture the course fragment from the activity layout
+        Bundle bundle = new Bundle();
+        bundle.putString("Category", category);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();;
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_dashboard, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        ;
+    }
+
 
     /**
      * Creates item detail fragment and swaps it for current fragment when item is selected.
@@ -276,12 +302,6 @@ public class DashboardActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void addItem(Item theItem) {
-//        myItems.add(theItem);
-//        mySortedItems.put(theItem.getmItemType(), myItems);
-//        Log.i("HERE IS THE ITEMS: ", myItems.get(0).getmItemName());
-    }
 
     @Override
     public void deleteItem(String itemName, String itemType) {
@@ -292,11 +312,8 @@ public class DashboardActivity extends AppCompatActivity
                 Log.i("SIZE OF TEMP BEFORE", ""+ temp.size());
                 temp.remove(i);
                 Log.i("Size of temp after", "" + temp.size());
-                if(temp.size() == 0) {
-                    mySortedItems.remove(itemType);
-                } else {
-                    mySortedItems.put(itemType, temp);
-                }
+                mySortedItems.put(itemType, temp);
+
             }
         }
         ArrayList<Item> print;
@@ -311,30 +328,25 @@ public class DashboardActivity extends AppCompatActivity
     }
 
     @Override
-    public void addDownloadedItems(ArrayList<Item> theItems) {
+    public Map<String, ArrayList<Item>> addDownloadedItems(ArrayList<Item> theItems) {
         boolean duplicateFound = false;
         ArrayList<Item> tempList;
         for(int i = 0; i < theItems.size(); i++) {
             if(mySortedItems.containsKey(theItems.get(i).getmItemType())) {
                 tempList = mySortedItems.get(theItems.get(i).getmItemType());
-                for(int j = 0; j < tempList.size(); j++) {
-                    if(tempList.get(j).getmItemName().equals(theItems.get(i).getmItemName())) {
+                for (int j = 0; j < tempList.size(); j++) {
+                    if (tempList.get(j).getmItemName().equals(theItems.get(i).getmItemName())) {
                         duplicateFound = true;
                     }
                 }
-                if(!duplicateFound) {
+                if (!duplicateFound) {
                     tempList.add(theItems.get(i));
                     mySortedItems.put(theItems.get(i).getmItemType(), tempList);
                 }
-
-            }else{
-                tempList = new ArrayList<Item>();
-                tempList.add(theItems.get(i));
-                mySortedItems.put(theItems.get(i).getmItemType(),tempList);
             }
         }
         Log.i("Here sorted items ", "" + mySortedItems.size());
-//
+        return mySortedItems;
     }
 
     private class AddItemTask extends AsyncTask<String, Void, String> {

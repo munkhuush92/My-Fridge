@@ -14,15 +14,6 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/items_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Items"
-            android:background="@color/image_button"
-            android:layout_margin="10dp"/>
-
-        <Button
             android:id="@+id/vegetables_button"
             android:drawableTop="@drawable/vegetables"
             android:layout_width="wrap_content"
@@ -62,6 +53,17 @@
             android:layout_height="wrap_content"
             android:background="@color/image_button"
             android:text="Meat"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:textSize="32dp"/>
+
+        <Button
+            android:id="@+id/dairy_button"
+            android:drawableTop="@drawable/dairy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/image_button"
+            android:text="Dairy"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:textSize="32dp"/>
