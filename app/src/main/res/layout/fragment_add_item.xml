@@ -19,11 +19,11 @@
         android:hint="Enter Quantity"
         android:id="@+id/add_item_quantity" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Item Type: ie: Dairy"
-        android:id="@+id/add_item_type" />
+        android:id="@+id/item_type" />
 
     <Button
         android:id="@+id/add_item_button"

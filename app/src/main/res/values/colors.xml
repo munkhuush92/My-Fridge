@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#333333</color>
-    <color name="colorPrimaryDark">#666666</color>
+    <color name="colorPrimaryDark">#5ac5ff</color>
     <color name="colorAccent">#ff4081</color>
-    <color name="background">#94BEFE</color>
-    <color name="title">#CCCCCC</color>
+    <color name="background">#e5e5e5</color>
+    <color name="toolbarbackground">#297dfd</color>
 
+    <color name="title">#CCCCCC</color>
+    <color name="black">#333333</color>
+    <color name="image_button">#add8e6</color>>
     <color name="myfridgeEditTextColor">#e5e5e5</color>
     <color name="myfridgeTextHintColor">#b2b2b2</color>
     <color name="myfridgeBackgroundColor">#666666</color>

@@ -71,20 +71,16 @@ public class DashboardActivity extends AppCompatActivity
         RecipeFragment.OnRecipeFragmentInteractionListener,
         ItemDetailFragment.ItemDeleteLocallyListener,
         ItemFragment.ItemAddLocallyListener,
-        InventoryFragment.SwapInventoryFragListener
+        InventoryFragment.SwapInventoryFragListener,
         SearchRecipeFragment.OnSearchFragmentInteractionListener
-        ,RecipeFragment.OnRecipeFragmentInteractionListener
         ,MyRecipesFragment.OnSavedRecipeListFragmentInteractionListener
+
 {
 
-    protected DrawerLayout mDrawer;
     private Map<String, ArrayList<Item>> mySortedItems;
     private ArrayList<Item> myItems;
     private static final String[] mCategories = {"Dairy", "Grains", "Vegetables", "Meat", "Fruit"};
     private String mLastSelectedCategory;
-
-{
-
     protected DrawerLayout mDrawer;
 
 
@@ -132,7 +128,7 @@ public class DashboardActivity extends AppCompatActivity
             }
         });
 
-        RecipeFragment recipeFragment = RecipeFragment.newInstance("LOL", false);
+        RecipeFragment recipeFragment = RecipeFragment.newInstance("hello");
 
         if (findViewById(R.id.content_dashboard) != null) {
 
@@ -166,7 +162,6 @@ public class DashboardActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-<<<<
         }
         else {
             SharedPreferences mSharedPref = getSharedPreferences(getString(R.string.LOGIN_PREFS)
@@ -357,7 +352,7 @@ public class DashboardActivity extends AppCompatActivity
                 .replace(R.id.content_dashboard, mySavedRecipes)
                 .addToBackStack(null)
                 .commit();
-
+    }
     @Override
     public void deleteItem(String itemName, String itemType) {
         ArrayList<Item> temp = mySortedItems.get(itemType);
@@ -404,7 +399,7 @@ public class DashboardActivity extends AppCompatActivity
         return mySortedItems;
     }
 
-    private class AddItemTask extends AsyncTask<String, Void, String> {
+        private class AddItemTask extends AsyncTask<String, Void, String> {
 
 
 
