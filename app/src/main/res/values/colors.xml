@@ -6,6 +6,7 @@
     <color name="background">#e5e5e5</color>
     <color name="toolbarbackground">#297dfd</color>
 
+    <color name="white">#FFFFFF</color>
     <color name="title">#CCCCCC</color>
     <color name="black">#333333</color>
     <color name="image_button">#add8e6</color>>
