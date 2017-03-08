@@ -48,7 +48,7 @@ public class MyDetailedRecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_mysaved_detailed_recipe, container, false);
+        final View view =  inflater.inflate(R.layout.fragment_mysaved_detailed_recipe, container, false);
         mRecipeTitle = (TextView) view.findViewById(R.id.mysaved_recipe_title_tv);
         mRecipeImage = (ImageView) view.findViewById(R.id.mysaved_recipe_img);
         mRecipeIngredients = (TextView) view.findViewById(R.id.mysaved_recipe_ingredients);
@@ -88,6 +88,7 @@ public class MyDetailedRecipeFragment extends Fragment {
                 FragmentManager fm=  getActivity().getSupportFragmentManager();
                 fm.beginTransaction().remove(MyDetailedRecipeFragment.this).commit();
                 fm.popBackStack();
+                Toast.makeText(getActivity(), "Removed last visited Recipe", Toast.LENGTH_SHORT).show();
             }
         });
 
