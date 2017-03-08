@@ -1,6 +1,7 @@
 package iann91.uw.tacoma.edu.myfridge.Recipe;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,15 +35,26 @@ public class MyDetailedRecipeFragment extends Fragment {
     private ImageView mRecipeImage;
     private TextView mRecipeIngredients;
     private RecipeContent mRecipe;
-
+    private GenerateRecipeListener mListener;
     private String mEmailContent;
 
+    private String mGrocList;
     public MyDetailedRecipeFragment(RecipeContent theRecipe) {
         mRecipe = theRecipe;
         // Required empty public constructor
     }
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MyDetailedRecipeFragment.GenerateRecipeListener) {
+            mListener = (MyDetailedRecipeFragment.GenerateRecipeListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement GenerateRecipeListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -97,13 +109,10 @@ public class MyDetailedRecipeFragment extends Fragment {
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(String cur: mRecipe.getmIngredients()){
-                    //GroceryListFragment.mGroceryList.add(cur);
-                }
+                //Here sending a groceries list to activity
+                mListener.sendListIngredients(mGrocList);
+                mListener.setChanged(true);
 
-                FragmentManager fm=  getActivity().getSupportFragmentManager();
-                fm.beginTransaction().remove(MyDetailedRecipeFragment.this).commit();
-                fm.popBackStack();
             }
         });
 
@@ -153,18 +162,21 @@ public class MyDetailedRecipeFragment extends Fragment {
             sb.append(recipe.getmInstructionUrl()+"\n");
 
             // Parsing the ingredients from array to a single string with new line character.
-            String theIngredients = "";
+            mGrocList = "";
             for(String s : recipe.getmIngredients()) {
-                theIngredients += s + "\n";
+                mGrocList += s + "\n";
             }
 
-            sb.append(theIngredients);
+            sb.append(mGrocList);
             mEmailContent = sb.toString();
-            mRecipeIngredients.setText(theIngredients);
+            mRecipeIngredients.setText(mGrocList);
 
 
         }
     }
-
+    public interface GenerateRecipeListener{
+        void sendListIngredients(String listOfIngredients);
+        void setChanged(boolean isAdded);
+    }
 
 }
