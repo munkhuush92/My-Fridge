@@ -70,7 +70,7 @@ public class DashboardActivity extends AppCompatActivity
         ItemDetailFragment.ItemAddDatabaseListener,
         RecipeFragment.OnRecipeFragmentInteractionListener,
         ItemDetailFragment.ItemDeleteLocallyListener,
-        ItemFragment.ItemAddLocallyListener,
+        InventoryFragment.ItemAddLocallyListener,
         InventoryFragment.SwapInventoryFragListener,
         SearchRecipeFragment.OnSearchFragmentInteractionListener
         ,MyRecipesFragment.OnSavedRecipeListFragmentInteractionListener
@@ -279,6 +279,7 @@ public class DashboardActivity extends AppCompatActivity
         mLastSelectedCategory = category;
         Bundle bundle = new Bundle();
         bundle.putString("Category", category);
+        bundle.putSerializable("Items", mySortedItems.get(category));
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
