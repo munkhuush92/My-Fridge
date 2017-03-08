@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,13 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Displays a list of Items.
@@ -37,8 +41,11 @@ public class ItemFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private ItemAddLocallyListener mLocalListener;
     private static final String ITEM_URL
             = "http://cssgate.insttech.washington.edu/~iann91/downloaditems.php?cmd=items";
+    private String mCategory;
+    private Map <String, ArrayList<Item>> myItems;
 
 
     private RecyclerView mRecyclerView;
@@ -61,7 +68,7 @@ public class ItemFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-
+        myItems = new HashMap<>();
     }
 
     /**
@@ -74,6 +81,9 @@ public class ItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mCategory = getArguments().getString("Category");
+        Log.i("CATEGORY", mCategory);
+
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -106,6 +116,7 @@ public class ItemFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof ItemFragment.OnListFragmentInteractionListener) {
             mListener = (ItemFragment.OnListFragmentInteractionListener) context;
+            mLocalListener = (ItemFragment.ItemAddLocallyListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -116,6 +127,7 @@ public class ItemFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mLocalListener = null;
     }
 
     /**
@@ -161,7 +173,7 @@ public class ItemFragment extends Fragment {
                 return;
             }
 
-            List<Item> itemList = new ArrayList<Item>();
+            ArrayList<Item> itemList = new ArrayList<Item>();
             result = Item.parseItemJSON(result, itemList);
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -172,7 +184,10 @@ public class ItemFragment extends Fragment {
 
             // Everything is good, show the list of courses.
             if (!itemList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(itemList, mListener));
+                myItems = mLocalListener.addDownloadedItems(itemList);
+                Log.i("My itess", myItems.get(mCategory).toString());
+                mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(myItems.get(mCategory), mListener));
+
             }
         }
 
@@ -192,6 +207,10 @@ public class ItemFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Item item);
+    }
+
+    public interface ItemAddLocallyListener {
+        Map<String,ArrayList<Item>> addDownloadedItems(ArrayList<Item> theItems);
     }
 
 }

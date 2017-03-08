@@ -37,6 +37,7 @@ public class ItemDetailFragment extends Fragment {
     private String mItemName, mItemQuantity, mItemType;
     private int mPersonID;
     private Item mItem;
+    private ItemDeleteLocallyListener mLocalDeleteListener;
 
 
     public ItemDetailFragment() {
@@ -64,6 +65,7 @@ public class ItemDetailFragment extends Fragment {
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
         floatingActionButton.hide();
+
         Button updateItemButton = (Button) v.findViewById(R.id.update_item_button);
         updateItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +83,7 @@ public class ItemDetailFragment extends Fragment {
             public void onClick(View v) {
                 String url = buildCourseURL(v, ITEM_DELETE_URL);
                 mListener.addItemDatabase(url);
+                mLocalDeleteListener.deleteItem(mItemName, mItemType);
             }
         });
 
@@ -96,6 +99,7 @@ public class ItemDetailFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof AddItemFragment.ItemAddDatabaseListener) {
             mListener = (ItemDetailFragment.ItemAddDatabaseListener) context;
+            mLocalDeleteListener = (ItemDetailFragment.ItemDeleteLocallyListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ItemAddListener");
@@ -175,5 +179,8 @@ public class ItemDetailFragment extends Fragment {
         public void addItemDatabase(String url);
     }
 
+    public interface ItemDeleteLocallyListener {
+        public void deleteItem(String itemName, String itemType);
+    }
 
 }

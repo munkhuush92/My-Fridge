@@ -1,19 +1,23 @@
 package iann91.uw.tacoma.edu.myfridge.Inventory;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardActivity;
 import iann91.uw.tacoma.edu.myfridge.R;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
@@ -22,10 +26,9 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
  * Fragment to display the users inventory.
  * @author iann91 Munkh92
  */
-public class InventoryFragment extends Fragment {
+public class InventoryFragment extends Fragment{
 
-    private Map<String, LinkedList<Item>> mySortedItems;
-    private LinkedList<Item> myItems;
+    private SwapInventoryFragListener mListener;
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -44,22 +47,46 @@ public class InventoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mySortedItems = new HashMap<String, LinkedList<Item>>();
+
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_inventory, container,
                 false);
 
-        final Button itemsButton = (Button) view.findViewById(R.id.items_button);
+        final Button dairyButton = (Button) view.findViewById(R.id.dairy_button);
+        final Button fruitButton = (Button) view.findViewById(R.id.fruit_button);
+        final Button vegetablesButton = (Button) view.findViewById(R.id.vegetables_button);
+        final Button meatButton = (Button) view.findViewById(R.id.meat_button);
+        final Button grainsButton = (Button) view.findViewById(R.id.grains_button);
 
         if (savedInstanceState == null || getActivity().getSupportFragmentManager().findFragmentById(R.id.list) == null) {
-            itemsButton.setOnClickListener(new View.OnClickListener() {
+            dairyButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    ItemFragment itemFragment = new ItemFragment();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.content_dashboard, itemFragment)
-                            .addToBackStack(null)
-                            .commit();
+                    mListener.swapToItemFragment(new ItemFragment(), "Dairy");
+                }
+            });
+
+            fruitButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    mListener.swapToItemFragment(new ItemFragment(), "Fruit");
+                }
+            });
+
+            vegetablesButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    mListener.swapToItemFragment(new ItemFragment(), "Vegetables");
+                }
+            });
+
+            grainsButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    mListener.swapToItemFragment(new ItemFragment(), "Grains");
+                }
+            });
+
+            meatButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    mListener.swapToItemFragment(new ItemFragment(), "Meat");
                 }
             });
         }
@@ -71,10 +98,26 @@ public class InventoryFragment extends Fragment {
         return view;
     }
 
-//    public boolean addItem(Item theItem) {
-//        myItems.add(theItem);
-//        mySortedItems.put(theItem.getmItemType(), myItems);
-//        return true;
-//    }
+    /**
+     * Sets listener to ItemAddListener when attached.
+     * @param context
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AddItemFragment.ItemAddDatabaseListener) {
+            mListener = (InventoryFragment.SwapInventoryFragListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement ItemAddListener");
+        }
+    }
+
+    /**
+     * Interface for adding an item to the database.
+     */
+    public interface SwapInventoryFragListener {
+        void swapToItemFragment(Fragment fragment, String category);
+    }
 
 }
