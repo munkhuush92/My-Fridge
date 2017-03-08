@@ -93,7 +93,7 @@ public class RecipeDetailFragment extends Fragment {
             // HERE we are saving recipe to my saved recipe class
             @Override
             public void onClick(View v) {
-                RecipeContent newRecipe = new RecipeContent(mRecipeTitle.getText().toString(), mRecipe.getmImageUrl(),  mRecipe.getmIngredients()  );
+                RecipeContent newRecipe = new RecipeContent(mRecipeTitle.getText().toString(), mRecipe.getmImageUrl(),  mRecipe.getmIngredients() ,mRecipe.getmInstructionUrl() );
                 MyRecipesFragment newrecipe = MyRecipesFragment.newInstance(newRecipe);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.popBackStackImmediate();
