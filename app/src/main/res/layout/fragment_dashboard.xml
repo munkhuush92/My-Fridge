@@ -9,7 +9,6 @@ android:fitsSystemWindows="true"
 tools:openDrawer="start"
 android:orientation="vertical"
 android:gravity="center"
-android:background="@color/background"
 tools:context="iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardFragment">
 
 
@@ -20,6 +19,7 @@ tools:context="iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardFragment">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        style="@style/ButtonStyle"
         android:text="My Recipes"
         />
 
@@ -28,7 +28,7 @@ tools:context="iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardFragment">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Grocery Lists"
-        android:layout_above="@id/recipes_button"
+        android:layout_above="@+id/recipes_button"
         />
 
     <Button

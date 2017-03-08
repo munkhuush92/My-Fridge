@@ -8,12 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 
 /**
  * Displays the list of grocery items the user needs to buy.
  */
 public class GroceryListFragment extends Fragment {
 
+
+    //protected static ArrayList<String> mGroceryList = new ArrayList<>();
 
     public GroceryListFragment() {
         // Required empty public constructor
@@ -29,5 +34,6 @@ public class GroceryListFragment extends Fragment {
         floatingActionButton.hide();
         return inflater.inflate(R.layout.fragment_grocery_list, container, false);
     }
+
 
 }
