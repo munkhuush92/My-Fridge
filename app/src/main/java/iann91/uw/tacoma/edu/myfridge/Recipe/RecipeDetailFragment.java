@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import iann91.uw.tacoma.edu.myfridge.R;
 import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
@@ -93,13 +94,12 @@ public class RecipeDetailFragment extends Fragment {
             // HERE we are saving recipe to my saved recipe class
             @Override
             public void onClick(View v) {
-                RecipeContent newRecipe = new RecipeContent(mRecipeTitle.getText().toString(), mRecipe.getmImageUrl(),  mRecipe.getmIngredients()  );
+                RecipeContent newRecipe = new RecipeContent(mRecipeTitle.getText().toString(), mRecipe.getmImageUrl(),  mRecipe.getmIngredients() ,mRecipe.getmInstructionUrl() );
                 MyRecipesFragment newrecipe = MyRecipesFragment.newInstance(newRecipe);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
+                Toast.makeText(getActivity(), "Added new recipe to My Recipes", Toast.LENGTH_LONG).show();
                 fm.popBackStackImmediate();
-                //FragmentManager fm = getActivity().getSupportFragmentManager();
-                //fm.beginTransaction().remove(RecipeDetailFragment.this).commit();
-               // fm.popBackStack();
+
 
             }
         });

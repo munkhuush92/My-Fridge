@@ -35,6 +35,8 @@ public class MyDetailedRecipeFragment extends Fragment {
     private TextView mRecipeIngredients;
     private RecipeContent mRecipe;
 
+    private String mEmailContent;
+
     public MyDetailedRecipeFragment(RecipeContent theRecipe) {
         mRecipe = theRecipe;
         // Required empty public constructor
@@ -46,7 +48,7 @@ public class MyDetailedRecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_mysaved_detailed_recipe, container, false);
+        final View view =  inflater.inflate(R.layout.fragment_mysaved_detailed_recipe, container, false);
         mRecipeTitle = (TextView) view.findViewById(R.id.mysaved_recipe_title_tv);
         mRecipeImage = (ImageView) view.findViewById(R.id.mysaved_recipe_img);
         mRecipeIngredients = (TextView) view.findViewById(R.id.mysaved_recipe_ingredients);
@@ -59,16 +61,12 @@ public class MyDetailedRecipeFragment extends Fragment {
             public void onClick(View v) {
                 Log.i("Send email", "");
 
-                String[] TO = {"someone@gmail.com"};
-                String[] CC = {"xyz@gmail.com"};
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setData(Uri.parse("mailto:"));
                 emailIntent.setType("text/plain");
 
-
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My recipe");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, mEmailContent);
 
                 try {
                     startActivity(Intent.createChooser(emailIntent, "Send mail..."));
@@ -90,6 +88,7 @@ public class MyDetailedRecipeFragment extends Fragment {
                 FragmentManager fm=  getActivity().getSupportFragmentManager();
                 fm.beginTransaction().remove(MyDetailedRecipeFragment.this).commit();
                 fm.popBackStack();
+                Toast.makeText(getActivity(), "Removed last visited Recipe", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -140,21 +139,28 @@ public class MyDetailedRecipeFragment extends Fragment {
     public void updateView(final RecipeContent recipe) {
         if (recipe != null) {
            // mRecipe= recipe;
+
+            //populate email content using string builder
+            StringBuilder sb = new StringBuilder();
             mRecipeTitle.setText(recipe.getmTitle());
 
             // Downloads the image for the recipe.
             MyRecipeRecyclerViewAdapter.DownloadImageTask task = new MyRecipeRecyclerViewAdapter
                     .DownloadImageTask(mRecipeImage);
             task.execute(recipe.getmImageUrl());
-
+            sb.append(recipe.getmTitle()+"\n");
+           // sb.append(recipe.getmImageUrl()+"\n");
+            sb.append(recipe.getmInstructionUrl()+"\n");
 
             // Parsing the ingredients from array to a single string with new line character.
-            String joinIngredients = "";
+            String theIngredients = "";
             for(String s : recipe.getmIngredients()) {
-                joinIngredients += s + "\n";
+                theIngredients += s + "\n";
             }
 
-            mRecipeIngredients.setText(joinIngredients);
+            sb.append(theIngredients);
+            mEmailContent = sb.toString();
+            mRecipeIngredients.setText(theIngredients);
 
 
         }
