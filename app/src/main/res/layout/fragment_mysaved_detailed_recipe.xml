@@ -1,0 +1,68 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="iann91.uw.tacoma.edu.myfridge.Recipe.MyDetailedRecipeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:id="@+id/mysaved_recipe_title_tv"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+
+        <ImageView
+            android:id="@+id/mysaved_recipe_img"
+            android:layout_marginTop="36dp"
+            android:layout_margin="16dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="monospace"
+            android:layout_marginBottom="16dp"
+            android:text="INGREDIENTS"
+            android:textSize="25sp"/>
+
+
+        <Button
+            android:text="Remove this recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteRecipebutton" />
+
+        <Button
+            android:text="Email this Recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/emailSentButton" />
+
+        <Button
+            android:text="Generate a grocery list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/generateGrocListbutton" />
+
+        <TextView
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mysaved_recipe_ingredients"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+</ScrollView>

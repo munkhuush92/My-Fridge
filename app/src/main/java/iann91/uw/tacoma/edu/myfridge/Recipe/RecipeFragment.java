@@ -35,15 +35,12 @@ public class RecipeFragment extends Fragment {
 
     /** Constants for building the API Url. */
     private static final String BASE_API_URL = "https://api.edamam.com/search?", PARAM_QUERY =
-            "q", APP_ID = "app_id", APP_ID_VALUE = "207c8c04", APP_KEY = "app_key", APP_KEY_VALUE
-            = "045854ce8fa13ee1b1b2c482677ec902", FROM = "from", FROM_VALUE = "0", TO = "to",
+            "q", APP_ID = "app_id", APP_ID_VALUE = "059bdc05", APP_KEY = "app_key", APP_KEY_VALUE
+            = "478709483e30d7e1e79e7cc102eda2ac", FROM = "from", FROM_VALUE = "0", TO = "to",
             TO_VALUE = "15";
 
     /** String for the current resulting API. */
     private static String mResultAPIUrl;
-
-    /** If the RecipeFragment was called from FavoritesActivity. */
-    private static boolean favoriteMode;
 
     /** String message for counting the column for this Fragment (List). */
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -70,16 +67,13 @@ public class RecipeFragment extends Fragment {
      *
      * @param contentSearch - is the message passed to this fragment, so it will build
      *                      the API URL based on the query (message).
-     * @param mode - boolean for which mode this fragment was called. true is for Favorites.
      * @return - a new Fragment (List).
      */
-    public static RecipeFragment newInstance(String contentSearch, boolean mode) {
+    public static RecipeFragment newInstance(String contentSearch) {
         RecipeFragment fragment = new RecipeFragment();
         Bundle args = new Bundle();
         //args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
-
-        favoriteMode = mode;
 
         mResultAPIUrl = buildUrl(contentSearch).toString();
 
@@ -125,10 +119,10 @@ public class RecipeFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            if (!favoriteMode) {
+
                 DownloadRecipesTask task = new DownloadRecipesTask();
                 task.execute(new String[] {mResultAPIUrl});
-            }
+
 
         }
         return view;
@@ -270,7 +264,6 @@ public class RecipeFragment extends Fragment {
                         .show();
                 return;
             }
-
 
 
         }

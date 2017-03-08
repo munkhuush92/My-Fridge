@@ -1,5 +1,9 @@
 package iann91.uw.tacoma.edu.myfridge.Dashboard;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +36,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import iann91.uw.tacoma.edu.myfridge.Authenticate.LoginActivity;
 import iann91.uw.tacoma.edu.myfridge.CalendarFragment;
 import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.AddItemFragment;
@@ -40,8 +48,11 @@ import iann91.uw.tacoma.edu.myfridge.Inventory.ItemDetailFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.ItemFragment;
 import iann91.uw.tacoma.edu.myfridge.PlanWeekFragment;
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.Recipe.MyDetailedRecipeFragment;
+import iann91.uw.tacoma.edu.myfridge.Recipe.MyRecipesFragment;
 import iann91.uw.tacoma.edu.myfridge.Recipe.RecipeDetailFragment;
 import iann91.uw.tacoma.edu.myfridge.Recipe.RecipeFragment;
+import iann91.uw.tacoma.edu.myfridge.Recipe.SearchRecipeFragment;
 import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
 import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
@@ -60,13 +71,21 @@ public class DashboardActivity extends AppCompatActivity
         RecipeFragment.OnRecipeFragmentInteractionListener,
         ItemDetailFragment.ItemDeleteLocallyListener,
         ItemFragment.ItemAddLocallyListener,
-        InventoryFragment.SwapInventoryFragListener{
+        InventoryFragment.SwapInventoryFragListener,
+        SearchRecipeFragment.OnSearchFragmentInteractionListener
+        ,MyRecipesFragment.OnSavedRecipeListFragmentInteractionListener
 
-    protected DrawerLayout mDrawer;
+{
+
     private Map<String, ArrayList<Item>> mySortedItems;
     private ArrayList<Item> myItems;
     private static final String[] mCategories = {"Dairy", "Grains", "Vegetables", "Meat", "Fruit"};
     private String mLastSelectedCategory;
+    protected DrawerLayout mDrawer;
+
+
+
+
     /**
      * Initializes fields and sets up the view.
      * @param savedInstanceState
@@ -109,7 +128,7 @@ public class DashboardActivity extends AppCompatActivity
             }
         });
 
-        RecipeFragment recipeFragment = RecipeFragment.newInstance("LOL", false);
+        RecipeFragment recipeFragment = RecipeFragment.newInstance("hello");
 
         if (findViewById(R.id.content_dashboard) != null) {
 
@@ -145,6 +164,12 @@ public class DashboardActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
         else {
+            SharedPreferences mSharedPref = getSharedPreferences(getString(R.string.LOGIN_PREFS)
+                    , Context.MODE_PRIVATE);
+
+            if (!mSharedPref.getBoolean(getString(R.string.LOGGEDIN), false)) {
+
+            }
             super.onBackPressed();
         }
     }
@@ -176,13 +201,17 @@ public class DashboardActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if(id == R.id.action_logout){
+            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
+            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            Log.i("LOGGIN OUT ", "MIKE");
             return true;
         }
+        return false;
 
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -199,13 +228,13 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.inventory_dashboard) {
             fragment = new InventoryFragment();
         } else if (id == R.id.recipe_dashboard) {
-            fragment = new RecipeFragment();
+            fragment = new SearchRecipeFragment();
         } else if (id == R.id.grocery_dashboard) {
             fragment = new GroceryListFragment();
         }
-//        else if (id == R.id.my_recipe_dash) {
-//            fragment = new MyRecipesFragment();
-//        }
+        else if (id == R.id.my_recipe_dash) {
+            fragment = new MyRecipesFragment();
+        }
         else if (id == R.id.scanner_dashboard) {
             fragment = new ScannerFragment();
         } else if (id == R.id.plan_week_dashboard) {
@@ -308,6 +337,22 @@ public class DashboardActivity extends AppCompatActivity
     }
 
 
+
+    @Override
+    public void onSearchRecipeFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onSavedListFragmentInteraction(RecipeContent item) {
+        MyDetailedRecipeFragment mySavedRecipes = new MyDetailedRecipeFragment(item);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_dashboard, mySavedRecipes)
+                .addToBackStack(null)
+                .commit();
+    }
     @Override
     public void deleteItem(String itemName, String itemType) {
         ArrayList<Item> temp = mySortedItems.get(itemType);
@@ -354,7 +399,9 @@ public class DashboardActivity extends AppCompatActivity
         return mySortedItems;
     }
 
-    private class AddItemTask extends AsyncTask<String, Void, String> {
+        private class AddItemTask extends AsyncTask<String, Void, String> {
+
+
 
         @Override
         protected void onPreExecute() {
@@ -407,7 +454,6 @@ public class DashboardActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "Success!"
                             , Toast.LENGTH_LONG)
                             .show();
-
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to add: "
                                     + jsonObject.get("error")

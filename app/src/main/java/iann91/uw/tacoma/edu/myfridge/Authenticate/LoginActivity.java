@@ -1,6 +1,8 @@
 package iann91.uw.tacoma.edu.myfridge.Authenticate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +11,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.AsyncTask;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -32,6 +42,13 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
         , RegistrationFragment.UserRegisterListener {
     private boolean mRegisterationSuccessfull = false;
 
+    /** SharedPreferences by MIKE.  */
+    private SharedPreferences mSharedPreferences;
+    private String mEmail;
+    private String mPass;
+
+
+
     /**
      * Initializes fields and updates view for login.
      * Launches login fragment.
@@ -42,27 +59,40 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        if (findViewById(R.id.fragment_container) != null) {
+        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS)
+                , Context.MODE_PRIVATE);
+        if (!mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false)) {
 
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
+            // Check that the activity is using the layout version with
+            // the fragment_container FrameLayout
+            if (findViewById(R.id.fragment_container) != null) {
+
+                // However, if we're being restored from a previous state,
+                // then we don't need to do anything and should return or else
+                // we could end up with overlapping fragments.
+                if (savedInstanceState != null) {
+                    return;
+                }
+
+                // Create a new Fragment to be placed in the activity layout
+                LoginFragment loginFragment = new LoginFragment();
+
+                // In case this activity was started with special instructions from an
+                // Intent, pass the Intent's extras to the fragment as arguments
+                loginFragment.setArguments(getIntent().getExtras());
+                // Add the fragment to the 'fragment_container' FrameLayout
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, loginFragment).commit();
             }
-
-            // Create a new Fragment to be placed in the activity layout
-            LoginFragment loginFragment = new LoginFragment();
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            loginFragment.setArguments(getIntent().getExtras());
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, loginFragment).commit();
+            Log.i("LOGGEN IN FIRST TIME", "MIKE");
+        }else{
+            Log.i("WE ALready loginned", "INN");
+            Intent i = new Intent(this, DashboardActivity.class);
+            startActivity(i);
+            finish();
         }
+
+
     }
 
     /**
@@ -78,7 +108,19 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        ;
+
+    }
+
+    @Override
+    public void login(String email) {
+        mSharedPreferences
+                .edit()
+                .putBoolean(getString(R.string.LOGGEDIN), true)
+                .commit();
+        Intent i = new Intent(this, DashboardActivity.class);
+        startActivity(i);
+        finish();
+
     }
 
     /**
@@ -96,7 +138,9 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
             //getSupportFragmentManager().popBackStackImmediate();
         if(mRegisterationSuccessfull) {
             Intent goToDashBoard = new Intent(this, DashboardActivity.class);
+            mSharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), true).commit();
             startActivity(goToDashBoard);
+            finish();
         }
 
     }

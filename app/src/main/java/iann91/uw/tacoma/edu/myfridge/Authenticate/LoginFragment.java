@@ -296,6 +296,8 @@ public class LoginFragment extends Fragment {
                     i.putExtra("password", mPassword);
                     i.putExtra("id", id);
                     startActivity(i);
+                    mListener.login(mEmail);
+                    //getActivity().finish();
                 }
 
             } catch (JSONException e) {
@@ -364,6 +366,7 @@ public class LoginFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Fragment fragment);
+        void login(String email);
     }
 
 }

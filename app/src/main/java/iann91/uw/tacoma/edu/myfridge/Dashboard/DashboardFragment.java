@@ -15,7 +15,9 @@ import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
 import iann91.uw.tacoma.edu.myfridge.PlanWeekFragment;
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.Recipe.MyRecipesFragment;
 import iann91.uw.tacoma.edu.myfridge.Recipe.RecipeFragment;
+import iann91.uw.tacoma.edu.myfridge.Recipe.SearchRecipeFragment;
 import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
 
 
@@ -60,7 +62,7 @@ public class DashboardFragment extends Fragment {
         final Button searchRecipesButton = (Button) view.findViewById(R.id.search_button);
         searchRecipesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Fragment searchRecipesFragment = new RecipeFragment();
+                Fragment searchRecipesFragment = new SearchRecipeFragment();
                 mListener = (OnDashboardFragmentInteractionListener)getActivity();
                 mListener.onDashboardFragmentInteraction(searchRecipesFragment);
             }
@@ -75,14 +77,14 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-//        final Button myRecipesButton = (Button) view.findViewById(R.id.recipes_button);
-//        myRecipesButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                Fragment myRecipeFragment = new MyRecipesFragment();
-//                mListener = (OnDashboardFragmentInteractionListener)getActivity();
-//                mListener.onDashboardFragmentInteraction(myRecipeFragment);
-//            }
-//        });
+        final Button myRecipesButton = (Button) view.findViewById(R.id.recipes_button);
+        myRecipesButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Fragment myRecipeFragment = new MyRecipesFragment();
+                mListener = (OnDashboardFragmentInteractionListener)getActivity();
+                mListener.onDashboardFragmentInteraction(myRecipeFragment);
+            }
+        });
 
         final Button scannerButton = (Button) view.findViewById(R.id.scanner_button);
         scannerButton.setOnClickListener(new View.OnClickListener() {

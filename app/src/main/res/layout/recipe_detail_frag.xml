@@ -41,6 +41,8 @@
                 android:text="Ingredients"
                 android:textSize="20sp"/>
 
+
+
             <TextView
                 android:layout_marginLeft="36dp"
                 android:layout_marginRight="36dp"
@@ -49,8 +51,12 @@
                 android:id="@+id/recipe_ingredients"
                 android:layout_gravity="center"/>
 
-
-            <!--android:onClick="openInstructionsUrl"-->
+            <Button
+                android:text="Save to My Recipes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:id="@+id/saveRecipeButton" />
         </LinearLayout>
 
     </ScrollView>

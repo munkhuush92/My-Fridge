@@ -2,10 +2,12 @@ package iann91.uw.tacoma.edu.myfridge.Recipe;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,8 +33,12 @@ public class RecipeDetailFragment extends Fragment {
     /** TextView element for the recipe's ingredients. */
     private TextView mRecipeIngredients;
 
+    /** Button which adds a recipe to my recipes content.   */
+    private Button mAddButton;
 
 
+    /** Current Recipe which is being used. */
+    private RecipeContent mRecipe;
 
     /**
      *  Required empty public constructor
@@ -82,7 +88,21 @@ public class RecipeDetailFragment extends Fragment {
         mRecipeTitle = (TextView) view.findViewById(R.id.recipe_title_tv);
         mRecipeImage = (ImageView) view.findViewById(R.id.recipe_img);
         mRecipeIngredients = (TextView) view.findViewById(R.id.recipe_ingredients);
+        mAddButton = (Button) view.findViewById(R.id.saveRecipeButton);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            // HERE we are saving recipe to my saved recipe class
+            @Override
+            public void onClick(View v) {
+                RecipeContent newRecipe = new RecipeContent(mRecipeTitle.getText().toString(), mRecipe.getmImageUrl(),  mRecipe.getmIngredients()  );
+                MyRecipesFragment newrecipe = MyRecipesFragment.newInstance(newRecipe);
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStackImmediate();
+                //FragmentManager fm = getActivity().getSupportFragmentManager();
+                //fm.beginTransaction().remove(RecipeDetailFragment.this).commit();
+               // fm.popBackStack();
 
+            }
+        });
         return view;
     }
 
@@ -110,7 +130,7 @@ public class RecipeDetailFragment extends Fragment {
      */
     public void updateView(final RecipeContent recipe) {
         if (recipe != null) {
-
+            mRecipe= recipe;
             mRecipeTitle.setText(recipe.getmTitle());
 
             // Downloads the image for the recipe.
