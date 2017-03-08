@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/inventory_dashboard"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Inventory" />
+        <item
+            android:id="@+id/recipe_dashboard"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Search Recipes" />
+        <item
+            android:id="@+id/grocery_dashboard"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Grocery List" />
+        <item
+            android:id="@+id/my_recipe_dash"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="My Recipes" />
+        <item
+            android:id="@+id/scanner_dashboard"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Scanner" />
+        <item
+            android:id="@+id/plan_week_dashboard"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Plan Week" />
+        <item
+            android:id="@+id/calendar_dashboard"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Calendar" />
+        <item
+            android:id="@+id/logout_dash"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Logout" />
+    </group>
+</menu>
