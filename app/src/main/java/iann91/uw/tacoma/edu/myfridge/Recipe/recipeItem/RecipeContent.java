@@ -28,7 +28,7 @@ public class RecipeContent implements Serializable {
     private String[] mIngredients;
 
     /** The instructions url of the recipe. */
-    private String mInstructionsUrl;
+    private String mInstructionUrl;
 
     /** Strings representing JSON data attributes for the external API. */
     private static final String HITS = "hits";
@@ -50,10 +50,11 @@ public class RecipeContent implements Serializable {
      * @param mImageUrl - the image url of the recipe.
      * @param mIngredients - the ingredients of the recipe.
      */
-    public RecipeContent(String mTitle, String mImageUrl, String[] mIngredients) {
+    public RecipeContent(String mTitle, String mImageUrl, String[] mIngredients, String theUrl) {
         this.mTitle = mTitle;
         this.mImageUrl = mImageUrl;
         this.mIngredients = mIngredients;
+        this.mInstructionUrl = theUrl;
     }
 
     /**
@@ -84,8 +85,8 @@ public class RecipeContent implements Serializable {
      * Gets the instructions url.
      * @return - the instructions url.
      */
-    public String getmInstructionsUrl() {
-        return mInstructionsUrl;
+    public String getmInstructionUrl() {
+        return mInstructionUrl;
     }
 
     /**
@@ -109,7 +110,7 @@ public class RecipeContent implements Serializable {
      * @param mInstructionsUrl - the instructions url of the recipe.
      */
     public void setmInstructionsUrl(String mInstructionsUrl) {
-        this.mInstructionsUrl = mInstructionsUrl;
+        this.mInstructionUrl = mInstructionsUrl;
     }
 
     /**
@@ -154,7 +155,7 @@ public class RecipeContent implements Serializable {
                     String url = recipeJson.getString(RecipeContent.URL);
 
                     // Construct Recipe object based on the retrieved data.
-                    RecipeContent recipe = new RecipeContent(label, image, ingred);
+                    RecipeContent recipe = new RecipeContent(label, image, ingred, url);
 
                     // Adds the Recipe object to the list.
                     recipeList.add(recipe);
