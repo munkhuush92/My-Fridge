@@ -74,6 +74,7 @@ public class DashboardActivity extends AppCompatActivity
         InventoryFragment.SwapInventoryFragListener,
         SearchRecipeFragment.OnSearchFragmentInteractionListener
         ,MyRecipesFragment.OnSavedRecipeListFragmentInteractionListener
+        ,MyDetailedRecipeFragment.GenerateRecipeListener
 
 {
 
@@ -84,7 +85,8 @@ public class DashboardActivity extends AppCompatActivity
     protected DrawerLayout mDrawer;
     private int mID = -1;
 
-
+    private String mGrocList;
+    private boolean mGrocListIsFilled;
 
 
     /**
@@ -267,7 +269,12 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     public void onDashboardFragmentInteraction(Fragment fragment) {
         // Capture the course fragment from the activity layout
-
+        if(fragment instanceof GroceryListFragment){
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("List filled", mGrocListIsFilled);
+            bundle.putString("Grocery List", mGrocList);
+            fragment.setArguments(bundle);
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_dashboard, fragment);
@@ -410,7 +417,18 @@ public class DashboardActivity extends AppCompatActivity
         return mySortedItems;
     }
 
-        private class AddItemTask extends AsyncTask<String, Void, String> {
+    @Override
+    public void sendListIngredients(String listOfIngredients) {
+        mGrocList = listOfIngredients;
+
+    }
+
+    @Override
+    public void setChanged(boolean isAdded) {
+        mGrocListIsFilled = isAdded;
+    }
+
+    private class AddItemTask extends AsyncTask<String, Void, String> {
 
 
 
