@@ -3,14 +3,18 @@ package iann91.uw.tacoma.edu.myfridge;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +30,10 @@ public class GroceryListFragment extends Fragment {
 
     //protected static ArrayList<String> mGroceryList = new ArrayList<>();
     private ArrayList<String> mGroceryList;
+
+    private ListView mGrocListView;
+    private ArrayList<String > mSelectedItems;
+    ArrayAdapter<String> mainAdapter;
     public GroceryListFragment() {
         // Required empty public constructor
     }
@@ -36,89 +44,57 @@ public class GroceryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mGroceryList = new ArrayList<String>();
-        View view = inflater.inflate(R.layout.fragment_grocery_list, container, false);
+        mSelectedItems = new ArrayList<String>();
+        final View view = inflater.inflate(R.layout.fragment_grocery_list, container, false);
         TextView grocTextView = (TextView) view.findViewById(R.id.my_grocery_list_textview);
+
+
+        //setting list view
+        mGrocListView = (ListView) view.findViewById(R.id.grocery_listView);
+        mGrocListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mGrocListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = ((TextView)view).getText().toString();
+                if(mSelectedItems.contains(selectedItem)){
+                    mSelectedItems.remove(selectedItem);
+                }else {
+                    mSelectedItems.add(selectedItem);
+                }
+            }
+        });
+
         if(getArguments().getBoolean("List filled")) {
             String[] tempList = getArguments().getString("Grocery List").split("\n");
             for(String cur:tempList) mGroceryList.add(cur);
+            Log.i("HEY", getActivity().toString());
+            mainAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowgrocerylist, R.id.row_item_grocery,mGroceryList );
+            mGrocListView.setAdapter(mainAdapter);
+            Log.i("HEY!!!", ""+mainAdapter.getCount());
 
-            //create an ArrayAdaptar from the String Array
-            dataAdapter = new MyCustomAdapter(this,
-                    R.layout.country_info, countryList);
-            ListView listView = (ListView) findViewById(R.id.listView1);
-            // Assign adapter to ListView
-            listView.setAdapter(dataAdapter);
+
         }else{
             grocTextView.setText("My Grocery List is empty");
         }
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
-                getActivity().findViewById(R.id.fab);
-        floatingActionButton.hide();
+        Button deleteGroceryListItemButton = (Button) view.findViewById(R.id.deleteCheckedItems);
+        deleteGroceryListItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder sb = new StringBuilder();
+                for(String cur: mSelectedItems){
+                    sb.append(cur+"\n");
+                    mGroceryList.remove(cur);
+
+                }
+                Toast.makeText(getActivity(), sb.toString(), Toast.LENGTH_SHORT).show();
+                mSelectedItems.clear();
+                mainAdapter.notifyDataSetChanged();
+              //  mGrocListView.invalidateViews();
+            }
+        });
+
         return view;
     }
-
-    private class MyCustomAdapter extends ArrayAdapter<String> {
-
-        private ArrayList<String> countryList;
-
-        public MyCustomAdapter(Context context, int textViewResourceId,
-                               ArrayList<String> countryList) {
-            super(context, textViewResourceId, countryList);
-            this.countryList = new ArrayList<String>();
-            this.countryList.addAll(countryList);
-        }
-
-        private class ViewHolder {
-            TextView code;
-            //CheckBox name;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            Log.v("ConvertView", String.valueOf(position));
-
-            if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater)getActivity().getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.country_info, null);
-
-                holder = new ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
-                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
-                convertView.setTag(holder);
-
-                holder.name.setOnClickListener( new View.OnClickListener() {
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v ;
-                        Country country = (Country) cb.getTag();
-                        Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked(),
-                                Toast.LENGTH_LONG).show();
-                        country.setSelected(cb.isChecked());
-                    }
-                });
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            Country country = countryList.get(position);
-            holder.code.setText(" (" +  country.getCode() + ")");
-            holder.name.setText(country.getName());
-            holder.name.setChecked(country.isSelected());
-            holder.name.setTag(country);
-
-            return convertView;
-
-        }
-
-    }
-
-
-
 
 }
