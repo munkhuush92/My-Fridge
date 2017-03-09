@@ -23,11 +23,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardActivity;
 import iann91.uw.tacoma.edu.myfridge.MyItemRecyclerViewAdapter;
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.data.ItemDB;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 
@@ -42,7 +44,11 @@ public class InventoryFragment extends Fragment{
     private String mCategory;
     private Map <String, ArrayList<Item>> myItems;
     private SwapInventoryFragListener mListener;
-    private boolean mDownloaded;
+    private int mID;
+
+    private ItemDB mItemDB;
+    private ArrayList<Item> mItemList;
+
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -51,7 +57,6 @@ public class InventoryFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDownloaded = false;
     }
 
     /**
@@ -71,8 +76,10 @@ public class InventoryFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_inventory, container,
                 false);
-
+        mItemList = new ArrayList<>();
         myItems = new HashMap<>();
+        mID = getArguments().getInt("id");
+
 
         final Button dairyButton = (Button) view.findViewById(R.id.dairy_button);
         final Button fruitButton = (Button) view.findViewById(R.id.fruit_button);
@@ -83,31 +90,58 @@ public class InventoryFragment extends Fragment{
         if (savedInstanceState == null || getActivity().getSupportFragmentManager().findFragmentById(R.id.list) == null) {
             dairyButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    mListener.swapToItemFragment(new ItemFragment(), "Dairy");
+                    try{
+                        mItemList = (ArrayList<Item>)mItemDB.getItems("Dairy");
+                    }catch(NullPointerException e) {
+
+                    }
+                    mListener.swapToItemFragment(new ItemFragment(), "Dairy", mItemList);
                 }
             });
 
             fruitButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    mListener.swapToItemFragment(new ItemFragment(), "Fruit");
+                    try{
+                        mItemList = (ArrayList<Item>)mItemDB.getItems("Fruit");
+                    }catch(NullPointerException e){
+
+                    }
+                    mListener.swapToItemFragment(new ItemFragment(), "Fruit", mItemList);
                 }
             });
 
             vegetablesButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    mListener.swapToItemFragment(new ItemFragment(), "Vegetables");
+                    try {
+                        mItemList = (ArrayList<Item>)mItemDB.getItems("Vegetables");
+                    } catch(NullPointerException e) {
+
+                    }
+
+                    mListener.swapToItemFragment(new ItemFragment(), "Vegetables", mItemList);
                 }
             });
 
             grainsButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    mListener.swapToItemFragment(new ItemFragment(), "Grains");
+                    try {
+                        mItemList = (ArrayList<Item>)mItemDB.getItems("Grains");
+                    } catch(NullPointerException e) {
+
+                    }
+
+                    mListener.swapToItemFragment(new ItemFragment(), "Grains", mItemList);
                 }
             });
 
             meatButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    mListener.swapToItemFragment(new ItemFragment(), "Meat");
+                    try {
+                        mItemList = (ArrayList<Item>)mItemDB.getItems("Meat");
+                    } catch(NullPointerException e) {
+
+                    }
+                    mListener.swapToItemFragment(new ItemFragment(), "Meat", mItemList);
                 }
             });
         }
@@ -115,11 +149,11 @@ public class InventoryFragment extends Fragment{
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
         floatingActionButton.hide();
-        if(!mDownloaded) {
-            DownloadItemsTask task = new DownloadItemsTask();
-            task.execute(new String[]{ITEM_URL});
-            mDownloaded = true;
-        }
+
+
+        DownloadItemsTask task = new DownloadItemsTask();
+        task.execute(new String[]{ITEM_URL});
+
 
 
         return view;
@@ -135,7 +169,6 @@ public class InventoryFragment extends Fragment{
         if (context instanceof AddItemFragment.ItemAddDatabaseListener) {
             mListener = (InventoryFragment.SwapInventoryFragListener) context;
             mLocalListener = (InventoryFragment.ItemAddLocallyListener) context;
-
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ItemAddListener");
@@ -182,7 +215,7 @@ public class InventoryFragment extends Fragment{
                 return;
             }
 
-            ArrayList<Item> itemList = new ArrayList<Item>();
+            List<Item> itemList = new ArrayList<Item>();
             result = Item.parseItemJSON(result, itemList);
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -193,8 +226,26 @@ public class InventoryFragment extends Fragment{
 
             // Everything is good, show the list of courses.
             if (!itemList.isEmpty()) {
-                myItems = mLocalListener.addDownloadedItems(itemList);
+                myItems = mLocalListener.addDownloadedItems((ArrayList<Item>)itemList);
                 Log.i("My itess", myItems.toString());
+
+                if(mItemDB == null) {
+                    mItemDB = new ItemDB(getActivity());
+                }
+                mItemDB.deleteCourses();
+
+                // Also, add to the local database
+                for (int i=0; i<itemList.size(); i++) {
+                    Item item = itemList.get(i);
+                    mItemDB.insertItem(item.getmItemName(),
+                            item.getmItemQuantity(),
+                            mID,
+                            item.getmItemType());
+                }
+
+
+//                mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mItems, mListener));
+
 
             }
         }
@@ -212,7 +263,7 @@ public class InventoryFragment extends Fragment{
      * Interface for adding an item to the database.
      */
     public interface SwapInventoryFragListener {
-        void swapToItemFragment(Fragment fragment, String category);
+        void swapToItemFragment(Fragment fragment, String category, ArrayList<Item> theItems);
     }
 
     public interface ItemAddLocallyListener {

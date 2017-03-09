@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import iann91.uw.tacoma.edu.myfridge.MyItemRecyclerViewAdapter;
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.data.ItemDB;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 import java.io.BufferedReader;
@@ -43,6 +44,9 @@ public class ItemFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private String mCategory;
     private ArrayList<Item> mItems;
+
+    private ItemDB mItemDB;
+
 
 
     private RecyclerView mRecyclerView;
@@ -81,6 +85,7 @@ public class ItemFragment extends Fragment {
 
         mCategory = getArguments().getString("Category");
         mItems = (ArrayList<Item>) getArguments().getSerializable("Items");
+
 
 
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,14 @@ public class DashboardFragment extends Fragment {
         final Button inventoryButton = (Button) view.findViewById(R.id.inventory_button);
         inventoryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Bundle b = new Bundle();
                 Fragment inventoryFragment = new InventoryFragment();
+
+                int myID = getArguments().getInt("id");
+                Log.i("MY ID",""+ myID);
+                b.putInt("id", myID);
+
+                inventoryFragment.setArguments(b);
                 mListener = (OnDashboardFragmentInteractionListener)getActivity();
                 mListener.onDashboardFragmentInteraction(inventoryFragment);
             }
