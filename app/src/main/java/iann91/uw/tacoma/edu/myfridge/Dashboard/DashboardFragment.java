@@ -2,9 +2,11 @@ package iann91.uw.tacoma.edu.myfridge.Dashboard;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
 public class DashboardFragment extends Fragment {
 
     private OnDashboardFragmentInteractionListener mListener;
+    private SharedPreferences mSharedPreferences;
 
 
     public DashboardFragment() {
@@ -45,13 +48,25 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        mSharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
+
         View view = inflater.inflate(R.layout.fragment_dashboard, container,
                 false);
 
         final ImageButton inventoryButton = (ImageButton) view.findViewById(R.id.inventory_button);
         inventoryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Bundle b = new Bundle();
                 Fragment inventoryFragment = new InventoryFragment();
+
+                if(!mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false)) {
+                    int myID = getArguments().getInt("id");
+                    Log.i("MY ID",""+ myID);
+                    b.putInt("id", myID);
+                }
+
+
+                inventoryFragment.setArguments(b);
                 mListener = (OnDashboardFragmentInteractionListener)getActivity();
                 mListener.onDashboardFragmentInteraction(inventoryFragment);
             }

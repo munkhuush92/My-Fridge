@@ -113,12 +113,14 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
      * @param email
      */
     @Override
-    public void login(String email) {
+    public void login(String email, int id) {
         mSharedPreferences
                 .edit()
                 .putBoolean(getString(R.string.LOGGEDIN), true)
                 .commit();
         Intent i = new Intent(this, DashboardActivity.class);
+        i.putExtra("username", email);
+        i.putExtra("id", id);
         startActivity(i);
         finish();
 

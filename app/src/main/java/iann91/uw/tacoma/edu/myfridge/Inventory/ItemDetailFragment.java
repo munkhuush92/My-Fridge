@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import iann91.uw.tacoma.edu.myfridge.MyItemRecyclerViewAdapter;
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.data.ItemDB;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 
@@ -36,7 +40,9 @@ public class ItemDetailFragment extends Fragment {
     private String mItemName, mItemQuantity, mItemType;
     private int mPersonID;
     private Item mItem;
+    private ItemDB mItemDB;
     private ItemDeleteLocallyListener mLocalDeleteListener;
+
 
 
     public ItemDetailFragment() {
@@ -60,6 +66,7 @@ public class ItemDetailFragment extends Fragment {
         mItemTypeTextView = (TextView) v.findViewById(R.id.item_type_text);
         mItemQuantityEditText = (EditText) v.findViewById(R.id.item_quantity);
         mPersonID =  getActivity().getIntent().getIntExtra("id", 0);
+        mItemDB = new ItemDB(getActivity().getApplicationContext());
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
@@ -83,6 +90,7 @@ public class ItemDetailFragment extends Fragment {
                 String url = buildCourseURL(v, ITEM_DELETE_URL);
                 mListener.addItemDatabase(url);
                 mLocalDeleteListener.deleteItem(mItemName, mItemType);
+                mItemDB.removeSingleItem(mItem.getmItemName(), mPersonID);
             }
         });
 
@@ -105,6 +113,21 @@ public class ItemDetailFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+    }
+
+    /**
+     * Updates the view to display item information.
+     *
+     */
+    public void clearView() {
+        mItemNameTextView.setText("");
+        mItemQuantityEditText.setText("");
+        mItemTypeTextView.setText("");
+    }
     /**
      * Updates the view to display item information.
      * @param item

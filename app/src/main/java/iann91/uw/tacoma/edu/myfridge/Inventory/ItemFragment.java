@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import iann91.uw.tacoma.edu.myfridge.MyItemRecyclerViewAdapter;
 import iann91.uw.tacoma.edu.myfridge.R;
+import iann91.uw.tacoma.edu.myfridge.data.ItemDB;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 import java.io.BufferedReader;
@@ -39,11 +40,12 @@ public class ItemFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private ItemAddLocallyListener mLocalListener;
-    private static final String ITEM_URL
-            = "http://cssgate.insttech.washington.edu/~iann91/downloaditems.php?cmd=items";
     private String mCategory;
-    private Map <String, ArrayList<Item>> myItems;
+    private ArrayList<Item> mItems;
+    private ItemDB mItemDB;
+
+
+
 
 
     private RecyclerView mRecyclerView;
@@ -66,7 +68,7 @@ public class ItemFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-        myItems = new HashMap<>();
+
     }
 
     /**
@@ -79,8 +81,12 @@ public class ItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         mCategory = getArguments().getString("Category");
-        Log.i("CATEGORY", mCategory);
+
+        mItemDB = new ItemDB(getActivity().getApplicationContext());
+        mItems = (ArrayList<Item>)mItemDB.getItems(mCategory);
+
 
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
@@ -98,11 +104,17 @@ public class ItemFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            DownloadItemsTask task = new DownloadItemsTask();
-            task.execute(new String[]{ITEM_URL});
+            Log.i("back set adapter", " " + mItems.size());
+            mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mItems, mListener));
+
 
         }
         return view;
+    }
+
+    public void setAdapter() {
+        mItems = (ArrayList<Item>)mItemDB.getItems(mCategory);
+        mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mItems, mListener));
     }
 
     /**
@@ -114,83 +126,24 @@ public class ItemFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof ItemFragment.OnListFragmentInteractionListener) {
             mListener = (ItemFragment.OnListFragmentInteractionListener) context;
-            mLocalListener = (ItemFragment.ItemAddLocallyListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
     }
 
+
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        mLocalListener = null;
     }
 
     /**
      * Async task for downloading the users items.
      */
-    private class DownloadItemsTask extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... urls) {
-            String response = "";
-            HttpURLConnection urlConnection = null;
-            for (String url : urls) {
-                try {
-                    URL urlObject = new URL(url);
-                    urlConnection = (HttpURLConnection) urlObject.openConnection();
-
-                    InputStream content = urlConnection.getInputStream();
-
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        response += s;
-                    }
-
-                } catch (Exception e) {
-                    response = "Unable to download the list of courses, Reason: "
-                            + e.getMessage();
-                }
-                finally {
-                    if (urlConnection != null)
-                        urlConnection.disconnect();
-                }
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            // Something wrong with the network or the URL.
-            if (result.startsWith("Unable to")) {
-                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
-                        .show();
-                return;
-            }
-
-            ArrayList<Item> itemList = new ArrayList<Item>();
-            result = Item.parseItemJSON(result, itemList);
-            // Something wrong with the JSON returned.
-            if (result != null) {
-                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
-                        .show();
-                return;
-            }
-
-            // Everything is good, show the list of courses.
-            if (!itemList.isEmpty()) {
-                myItems = mLocalListener.addDownloadedItems(itemList);
-                Log.i("My itess", myItems.get(mCategory).toString());
-                mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(myItems.get(mCategory), mListener));
-
-            }
-        }
-
-
-    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -206,8 +159,6 @@ public class ItemFragment extends Fragment {
         void onListFragmentInteraction(Item item);
     }
 
-    public interface ItemAddLocallyListener {
-        Map<String,ArrayList<Item>> addDownloadedItems(ArrayList<Item> theItems);
-    }
+
 
 }
