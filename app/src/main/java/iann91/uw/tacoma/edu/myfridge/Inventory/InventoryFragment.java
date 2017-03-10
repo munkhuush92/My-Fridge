@@ -5,21 +5,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
-import iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardActivity;
 import iann91.uw.tacoma.edu.myfridge.R;
-import iann91.uw.tacoma.edu.myfridge.item.Item;
 
 
 /**

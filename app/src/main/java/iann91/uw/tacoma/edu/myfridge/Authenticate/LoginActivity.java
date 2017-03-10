@@ -44,9 +44,6 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
 
     /** SharedPreferences by MIKE.  */
     private SharedPreferences mSharedPreferences;
-    private String mEmail;
-    private String mPass;
-
 
 
     /**
@@ -84,9 +81,7 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container, loginFragment).commit();
             }
-            Log.i("LOGGEN IN FIRST TIME", "MIKE");
         }else{
-            Log.i("WE ALready loginned", "INN");
             Intent i = new Intent(this, DashboardActivity.class);
             startActivity(i);
             finish();
@@ -111,6 +106,12 @@ public class LoginActivity extends FragmentActivity implements LoginFragment.OnL
 
     }
 
+    /**
+     * Login Fragment Interface's overriden method.
+     * it notifies activity that user logged in. Then,
+     * Login Activity leads the user to next activity.
+     * @param email
+     */
     @Override
     public void login(String email) {
         mSharedPreferences
