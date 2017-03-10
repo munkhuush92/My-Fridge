@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import iann91.uw.tacoma.edu.myfridge.R;
 import iann91.uw.tacoma.edu.myfridge.item.Item;

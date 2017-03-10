@@ -8,12 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 
 import android.os.AsyncTask;
@@ -168,7 +166,6 @@ public class LoginFragment extends Fragment {
      * @return whether or not email is valid.
      */
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
@@ -178,14 +175,12 @@ public class LoginFragment extends Fragment {
      * @return whether or not password is valid.
      */
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
@@ -278,10 +273,14 @@ public class LoginFragment extends Fragment {
         return response;
         }
 
+        /**
+         * This method takes the result and it assigns input
+         * to interface method login. This puts email and pass in the extra
+         * and takes the user to next Activity.
+         * @param s result string from doInBackground method
+         */
         @Override
         protected void onPostExecute(String s) {
-
-
             mAuthTask = null;
             String err=null;
 
@@ -302,9 +301,6 @@ public class LoginFragment extends Fragment {
                 Toast.makeText( getActivity(),"Login Failed", Toast.LENGTH_LONG).show();
                             mEmailView.requestFocus();
             }
-
-
-
 
         }
 
@@ -360,7 +356,6 @@ public class LoginFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(Fragment fragment);
         void login(String email, int id);
     }

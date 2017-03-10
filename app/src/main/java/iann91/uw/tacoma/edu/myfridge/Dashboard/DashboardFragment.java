@@ -152,7 +152,6 @@ public class DashboardFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnDashboardFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onDashboardFragmentInteraction(Fragment fragment);
     }
 

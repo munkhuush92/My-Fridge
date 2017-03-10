@@ -116,7 +116,7 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        
+
     }
 
     /**
@@ -145,7 +145,6 @@ public class ItemDetailFragment extends Fragment {
             mItemType = item.getmItemType();
             mItemType = mItemType.replaceAll(" ", "%20");
         }
-
     }
 
     /**
