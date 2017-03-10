@@ -17,17 +17,13 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardActivity;
-import iann91.uw.tacoma.edu.myfridge.MyItemRecyclerViewAdapter;
 import iann91.uw.tacoma.edu.myfridge.R;
 import iann91.uw.tacoma.edu.myfridge.data.ItemDB;
 import iann91.uw.tacoma.edu.myfridge.item.Item;
@@ -230,7 +226,7 @@ public class InventoryFragment extends Fragment{
                 Log.i("My itess", myItems.toString());
 
                 if(mItemDB == null) {
-                    mItemDB = new ItemDB(getActivity());
+                    mItemDB = new ItemDB(getActivity().getApplicationContext());
                 }
                 mItemDB.deleteCourses();
 

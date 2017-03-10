@@ -61,19 +61,13 @@ tools:context="iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardFragment">
         android:text="Plan Week"
         android:layout_below="@id/scanner_button"
         />
-    <Button
-        android:id="@+id/calendar_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calendar"
-        android:layout_below="@id/plan_week_button"
-        />
+
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Log Out"
-        android:layout_below="@id/calendar_button"
+        android:layout_below="@id/plan_week_button"
         />
 
 </RelativeLayout>

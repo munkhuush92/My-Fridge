@@ -44,8 +44,9 @@ public class ItemFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private String mCategory;
     private ArrayList<Item> mItems;
-
     private ItemDB mItemDB;
+
+
 
 
 
@@ -84,9 +85,9 @@ public class ItemFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         mCategory = getArguments().getString("Category");
-        mItems = (ArrayList<Item>) getArguments().getSerializable("Items");
 
-
+        mItemDB = new ItemDB(getActivity().getApplicationContext());
+        mItems = (ArrayList<Item>)mItemDB.getItems(mCategory);
 
 
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
@@ -105,11 +106,17 @@ public class ItemFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+            Log.i("back set adapter", " " + mItems.size());
             mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mItems, mListener));
 
 
         }
         return view;
+    }
+
+    public void setAdapter() {
+        mItems = (ArrayList<Item>)mItemDB.getItems(mCategory);
+        mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mItems, mListener));
     }
 
     /**
@@ -126,6 +133,8 @@ public class ItemFragment extends Fragment {
                     + " must implement OnListFragmentInteractionListener");
         }
     }
+
+
 
     @Override
     public void onDetach() {

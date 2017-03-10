@@ -2,6 +2,7 @@ package iann91.uw.tacoma.edu.myfridge.Dashboard;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import iann91.uw.tacoma.edu.myfridge.CalendarFragment;
 import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
 import iann91.uw.tacoma.edu.myfridge.PlanWeekFragment;
 import iann91.uw.tacoma.edu.myfridge.R;
 import iann91.uw.tacoma.edu.myfridge.Recipe.MyRecipesFragment;
-import iann91.uw.tacoma.edu.myfridge.Recipe.RecipeFragment;
 import iann91.uw.tacoma.edu.myfridge.Recipe.SearchRecipeFragment;
 import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
 
@@ -31,6 +30,7 @@ import iann91.uw.tacoma.edu.myfridge.ScannerFragment;
 public class DashboardFragment extends Fragment {
 
     private OnDashboardFragmentInteractionListener mListener;
+    private SharedPreferences mSharedPreferences;
 
 
     public DashboardFragment() {
@@ -48,6 +48,8 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        mSharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
+
         View view = inflater.inflate(R.layout.fragment_dashboard, container,
                 false);
 
@@ -57,9 +59,12 @@ public class DashboardFragment extends Fragment {
                 Bundle b = new Bundle();
                 Fragment inventoryFragment = new InventoryFragment();
 
-                int myID = getArguments().getInt("id");
-                Log.i("MY ID",""+ myID);
-                b.putInt("id", myID);
+                if(!mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false)) {
+                    int myID = getArguments().getInt("id");
+                    Log.i("MY ID",""+ myID);
+                    b.putInt("id", myID);
+                }
+
 
                 inventoryFragment.setArguments(b);
                 mListener = (OnDashboardFragmentInteractionListener)getActivity();
@@ -112,14 +117,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        final Button calendarButton = (Button) view.findViewById(R.id.calendar_button);
-        calendarButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Fragment calendarFragment = new CalendarFragment();
-                mListener = (OnDashboardFragmentInteractionListener)getActivity();
-                mListener.onDashboardFragmentInteraction(calendarFragment);
-            }
-        });
+
         // Inflate the layout for this fragment
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);

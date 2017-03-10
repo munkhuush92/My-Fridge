@@ -28,19 +28,13 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import iann91.uw.tacoma.edu.myfridge.Authenticate.LoginActivity;
-import iann91.uw.tacoma.edu.myfridge.CalendarFragment;
 import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.AddItemFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
@@ -84,6 +78,7 @@ public class DashboardActivity extends AppCompatActivity
     private String mLastSelectedCategory;
     protected DrawerLayout mDrawer;
     private int mID = -1;
+    private SharedPreferences mSharedPreferences;
 
     private String mGrocList;
     private boolean mGrocListIsFilled;
@@ -104,6 +99,7 @@ public class DashboardActivity extends AppCompatActivity
         for(int i = 0; i < mCategories.length; i++) {
             mySortedItems.put(mCategories[i], new ArrayList<Item>());
         }
+        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -146,7 +142,7 @@ public class DashboardActivity extends AppCompatActivity
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
-            if(mID == -1) {
+            if(mID == -1 && !mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false)) {
                 mID = getIntent().getExtras().getInt("id");
                 Log.i("ID", "" + mID);
             }
@@ -211,8 +207,7 @@ public class DashboardActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id == R.id.action_logout){
-            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
-            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+            mSharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -240,17 +235,13 @@ public class DashboardActivity extends AppCompatActivity
             fragment = new SearchRecipeFragment();
         } else if (id == R.id.grocery_dashboard) {
             fragment = new GroceryListFragment();
-        }
-        else if (id == R.id.my_recipe_dash) {
+        } else if (id == R.id.my_recipe_dash) {
             fragment = new MyRecipesFragment();
-        }
-        else if (id == R.id.scanner_dashboard) {
+        } else if (id == R.id.scanner_dashboard) {
             fragment = new ScannerFragment();
         } else if (id == R.id.plan_week_dashboard) {
             fragment = new PlanWeekFragment();
-        } else if (id == R.id.calendar_dashboard) {
-            fragment = new CalendarFragment();
-        } else if (id == R.id.logout_dash) {
+        }  else if (id == R.id.logout_dash) {
 
         }
 

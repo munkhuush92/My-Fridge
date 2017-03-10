@@ -1,5 +1,6 @@
 package iann91.uw.tacoma.edu.myfridge.data;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,14 +17,19 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
  * Created by imnic on 3/7/2017.
  */
 
-public class ItemDB {
+public class ItemDB extends Application{
     private static final String ITEM_TABLE = "Food";
+    private static final String NAME_FOOD_ITEM = "nameFoodItem";
+    private static final String PERSON_ID = "PersonID";
 
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "Item.db";
 
     private ItemDBHelper mItemDBHelper;
     private SQLiteDatabase mSQLiteDatabase;
+
+
+    public ItemDB() {}
 
     public ItemDB(Context context) {
         mItemDBHelper = new ItemDBHelper(
@@ -41,9 +47,20 @@ public class ItemDB {
 
         long rowId = mSQLiteDatabase.insert(ITEM_TABLE, null, contentValues);
         return rowId != -1;
+
     }
 
     public void closeDB() {
+        mSQLiteDatabase.close();
+    }
+
+    public void removeSingleItem(String name, int id) {
+        //Open the database
+                //Execute sql query to remove from database
+        //NOTE: When removing by String in SQL, value must be enclosed with ''
+        mSQLiteDatabase.execSQL("DELETE FROM " + ITEM_TABLE + " WHERE " + NAME_FOOD_ITEM + "= '" + name + "'" + " AND " + PERSON_ID  + "= " + id);
+
+        //Close the database
         mSQLiteDatabase.close();
     }
 
