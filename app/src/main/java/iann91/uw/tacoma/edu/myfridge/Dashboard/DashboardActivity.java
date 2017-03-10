@@ -65,7 +65,7 @@ public class DashboardActivity extends AppCompatActivity
         ItemDetailFragment.ItemAddDatabaseListener,
         RecipeFragment.OnRecipeFragmentInteractionListener,
         ItemDetailFragment.ItemDeleteLocallyListener,
-        ItemFragment.ItemAddLocallyListener,
+        InventoryFragment.ItemAddLocallyListener,
         InventoryFragment.SwapInventoryFragListener,
         SearchRecipeFragment.OnSearchFragmentInteractionListener
         ,MyRecipesFragment.OnSavedRecipeListFragmentInteractionListener
@@ -78,6 +78,7 @@ public class DashboardActivity extends AppCompatActivity
     private static final String[] mCategories = {"Dairy", "Grains", "Vegetables", "Meat", "Fruit"};
     private String mLastSelectedCategory;
     protected DrawerLayout mDrawer;
+    private int mID = -1;
 
     private String mGrocList;
     private boolean mGrocListIsFilled;
@@ -93,12 +94,8 @@ public class DashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-
-
         myItems = new ArrayList<Item>();
-        mySortedItems = new HashMap<String, ArrayList<Item>>();
+        mySortedItems = new HashMap<>();
         for(int i = 0; i < mCategories.length; i++) {
             mySortedItems.put(mCategories[i], new ArrayList<Item>());
         }
@@ -144,7 +141,14 @@ public class DashboardActivity extends AppCompatActivity
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
+            if(mID == -1) {
+                mID = getIntent().getExtras().getInt("id");
+                Log.i("ID", "" + mID);
+            }
+
+
             dashboardFragment.setArguments(getIntent().getExtras());
+
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.content_dashboard, dashboardFragment).commit();
@@ -291,11 +295,16 @@ public class DashboardActivity extends AppCompatActivity
      * @param fragment to change to.
      */
     @Override
-    public void swapToItemFragment(Fragment fragment, String category) {
+    public void swapToItemFragment(Fragment fragment, String category, ArrayList<Item> theItems) {
         // Capture the course fragment from the activity layout
+        if(!theItems.isEmpty()) {
+            Log.i("ITEMS IN DASHBOARD", theItems.get(0).getmItemName());
+        }
         mLastSelectedCategory = category;
         Bundle bundle = new Bundle();
         bundle.putString("Category", category);
+
+        bundle.putSerializable("Items", theItems);
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -380,7 +389,6 @@ public class DashboardActivity extends AppCompatActivity
                 temp.remove(i);
                 Log.i("Size of temp after", "" + temp.size());
                 mySortedItems.put(itemType, temp);
-
             }
         }
         ArrayList<Item> print;
@@ -454,7 +462,7 @@ public class DashboardActivity extends AppCompatActivity
                     }
 
                 } catch (Exception e) {
-                    response = "Unable to add item, Reason: "
+                    response = "Unable to update item, Reason: "
                             + e.getMessage();
                 } finally {
                     if (urlConnection != null)
@@ -483,7 +491,7 @@ public class DashboardActivity extends AppCompatActivity
                             , Toast.LENGTH_LONG)
                             .show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Failed to add: "
+                    Toast.makeText(getApplicationContext(), "Failed to update: "
                                     + jsonObject.get("error")
                             , Toast.LENGTH_LONG)
                             .show();

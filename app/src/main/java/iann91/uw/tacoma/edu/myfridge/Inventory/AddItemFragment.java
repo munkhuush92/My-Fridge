@@ -73,7 +73,8 @@ public class AddItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_item, container, false);
-        mCategory = getArguments().getString("Category");
+        mCategory = (String)getArguments().get("Category");
+
         mItemNameEditText = (EditText) v.findViewById(R.id.add_item_name);
         mItemQuantityEditText = (EditText) v.findViewById(R.id.add_item_quantity);
         mFoodTypeTextView = (TextView) v.findViewById(R.id.item_type);
