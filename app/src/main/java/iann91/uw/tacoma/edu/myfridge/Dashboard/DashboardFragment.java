@@ -56,17 +56,19 @@ public class DashboardFragment extends Fragment {
         final ImageButton inventoryButton = (ImageButton) view.findViewById(R.id.inventory_button);
         inventoryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Bundle b = new Bundle();
+
                 Fragment inventoryFragment = new InventoryFragment();
 
                 if(!mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false)) {
+                    Bundle b = new Bundle();
                     int myID = getArguments().getInt("id");
                     Log.i("MY ID",""+ myID);
                     b.putInt("id", myID);
+                    inventoryFragment.setArguments(b);
                 }
 
 
-                inventoryFragment.setArguments(b);
+
                 mListener = (OnDashboardFragmentInteractionListener)getActivity();
                 mListener.onDashboardFragmentInteraction(inventoryFragment);
             }

@@ -74,6 +74,7 @@ public class InventoryFragment extends Fragment{
                 false);
         mItemList = new ArrayList<>();
         myItems = new HashMap<>();
+
         mID = getArguments().getInt("id");
 
 

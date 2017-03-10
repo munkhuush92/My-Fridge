@@ -245,6 +245,11 @@ public class DashboardActivity extends AppCompatActivity
 
         if (id == R.id.inventory_dashboard) {
             fragment = new InventoryFragment();
+
+            Bundle b = new Bundle();
+            b.putInt("id", mID);
+            fragment.setArguments(b);
+
         } else if (id == R.id.recipe_dashboard) {
             fragment = new SearchRecipeFragment();
         } else if (id == R.id.grocery_dashboard) {
@@ -256,7 +261,7 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.plan_week_dashboard) {
             fragment = new PlanWeekFragment();
         }  else if (id == R.id.logout_dash) {
-        }
+    }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_dashboard, fragment).addToBackStack(null).commit();
