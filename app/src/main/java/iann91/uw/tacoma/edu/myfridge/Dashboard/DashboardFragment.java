@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
@@ -53,7 +53,7 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container,
                 false);
 
-        final Button inventoryButton = (Button) view.findViewById(R.id.inventory_button);
+        final ImageButton inventoryButton = (ImageButton) view.findViewById(R.id.inventory_button);
         inventoryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Bundle b = new Bundle();
@@ -72,7 +72,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        final Button searchRecipesButton = (Button) view.findViewById(R.id.search_button);
+        final ImageButton searchRecipesButton = (ImageButton) view.findViewById(R.id.search_button);
         searchRecipesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment searchRecipesFragment = new SearchRecipeFragment();
@@ -81,7 +81,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        final Button groceryListButton = (Button) view.findViewById(R.id.grocery_button);
+        final ImageButton groceryListButton = (ImageButton) view.findViewById(R.id.grocery_button);
         groceryListButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment groceryListFragment = new GroceryListFragment();
@@ -90,7 +90,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        final Button myRecipesButton = (Button) view.findViewById(R.id.recipes_button);
+        final ImageButton myRecipesButton = (ImageButton) view.findViewById(R.id.recipes_button);
         myRecipesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment myRecipeFragment = new MyRecipesFragment();
@@ -99,7 +99,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        final Button scannerButton = (Button) view.findViewById(R.id.scanner_button);
+        final ImageButton scannerButton = (ImageButton) view.findViewById(R.id.scanner_button);
         scannerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment scannerFragment = new ScannerFragment();
@@ -108,7 +108,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        final Button planWeekButton = (Button) view.findViewById(R.id.plan_week_button);
+        final ImageButton planWeekButton = (ImageButton) view.findViewById(R.id.plan_week_button);
         planWeekButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment planWeekFragment = new PlanWeekFragment();
@@ -116,6 +116,7 @@ public class DashboardFragment extends Fragment {
                 mListener.onDashboardFragmentInteraction(planWeekFragment);
             }
         });
+
 
 
         // Inflate the layout for this fragment

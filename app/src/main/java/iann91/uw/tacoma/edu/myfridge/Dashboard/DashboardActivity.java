@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -192,6 +193,19 @@ public class DashboardActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dashboard, menu);
+
+        //set up log out button
+        ImageButton logoutButton = (ImageButton) this.findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
+                sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+                Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         return true;
     }
 
@@ -242,7 +256,6 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.plan_week_dashboard) {
             fragment = new PlanWeekFragment();
         }  else if (id == R.id.logout_dash) {
-
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
