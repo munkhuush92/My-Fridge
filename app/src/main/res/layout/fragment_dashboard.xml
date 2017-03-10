@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<GridLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
@@ -7,76 +7,92 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:fitsSystemWindows="true"
 tools:openDrawer="start"
+    android:columnCount="2"
+    android:rowCount="4"
 android:orientation="vertical"
-android:gravity="center"
+
+    style="@style/DashTheme"
 tools:context="iann91.uw.tacoma.edu.myfridge.Dashboard.DashboardFragment">
 
 
 
 
-    <Button
+    <ImageButton
         android:id="@+id/recipes_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        style="@style/ButtonStyle"
+        android:src="@drawable/recipesimagebutton"
+        android:scaleType="fitXY"
+        android:background="@null"
         android:text="My Recipes"
-        />
+        android:layout_width="160dp"
+        android:layout_height="120dp" />
 
-    <Button
-        android:id="@+id/grocery_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Grocery Lists"
-        android:layout_above="@+id/recipes_button"
-        />
-
-    <Button
+    <ImageButton
         android:id="@+id/search_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:src="@drawable/searchrecipeimagebutton"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_gravity="left|top"
         android:text="Search Recipes"
-        android:layout_above="@id/grocery_button"
-        />
+        android:layout_width="160dp"
+        android:layout_height="120dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/inventory_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:src="@drawable/inventoryimagebutton"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
         android:text="Inventory"
-        android:layout_above="@id/search_button"
+        android:layout_gravity="left|top"
         />
 
-    <Button
-        android:id="@+id/scanner_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Scanner"
-        android:layout_below="@id/recipes_button"
-        />
-    <Button
-        android:id="@+id/plan_week_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Plan Week"
-        android:layout_below="@id/scanner_button"
-        />
-    <Button
-        android:id="@+id/calendar_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calendar"
-        android:layout_below="@id/plan_week_button"
-        />
-    <Button
+
+    <ImageButton
         android:id="@+id/logout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:src="@drawable/logout"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
         android:text="Log Out"
-        android:layout_below="@id/calendar_button"
+        android:layout_gravity="left|top"
+        />
+    <ImageButton
+        android:id="@+id/grocery_button"
+        android:src="@drawable/grocerylistimagebutton"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:text="Grocery Lists"
         />
 
-</RelativeLayout>
+
+
+    <ImageButton
+        android:id="@+id/plan_week_button"
+        android:src="@drawable/weekplaniamgebutton"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:text="Plan Week"
+        android:layout_gravity="left|top"
+        />
+
+    <ImageButton
+        android:id="@+id/scanner_button"
+        android:src="@drawable/scanimagebutton"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:text="Scanner"
+        android:layout_gravity="left|top"
+        />
+
+</GridLayout>
 
 
 
