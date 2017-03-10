@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -28,19 +29,13 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import iann91.uw.tacoma.edu.myfridge.Authenticate.LoginActivity;
-import iann91.uw.tacoma.edu.myfridge.CalendarFragment;
 import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.AddItemFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
@@ -99,6 +94,9 @@ public class DashboardActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+
         myItems = new ArrayList<Item>();
         mySortedItems = new HashMap<String, ArrayList<Item>>();
         for(int i = 0; i < mCategories.length; i++) {
@@ -154,6 +152,7 @@ public class DashboardActivity extends AppCompatActivity
 
 
 
+
     }
 
     /**
@@ -189,6 +188,19 @@ public class DashboardActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dashboard, menu);
+
+        //set up log out button
+        ImageButton logoutButton = (ImageButton) this.findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
+                sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+                Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         return true;
     }
 
@@ -241,8 +253,6 @@ public class DashboardActivity extends AppCompatActivity
             fragment = new ScannerFragment();
         } else if (id == R.id.plan_week_dashboard) {
             fragment = new PlanWeekFragment();
-        } else if (id == R.id.calendar_dashboard) {
-            fragment = new CalendarFragment();
         } else if (id == R.id.logout_dash) {
 
         }

@@ -114,8 +114,6 @@ public class MyDetailedRecipeFragment extends Fragment {
                 mListener.setChanged(true);
                 Toast.makeText(getActivity(), "A Generated List in your device", Toast.LENGTH_SHORT).show();
 
-
-
             }
         });
 
