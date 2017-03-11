@@ -31,6 +31,12 @@
         PersonID INTEGER, foodType TEXT)
     </string>
 
+    <string name="CREATE_RECIPES_SQL">
+        CREATE TABLE IF NOT EXISTS Recipes
+        (nameFoodItem TEXT PRIMARY KEY, sizeFoodItem TEXT,
+        PersonID INTEGER, foodType TEXT)
+    </string>
+
     <string name="DROP_ITEM_SQL">
         DROP TABLE IF EXISTS Food
     </string>

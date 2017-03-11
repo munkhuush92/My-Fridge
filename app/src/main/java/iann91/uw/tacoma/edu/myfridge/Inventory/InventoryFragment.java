@@ -2,6 +2,7 @@ package iann91.uw.tacoma.edu.myfridge.Inventory;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,6 +43,8 @@ public class InventoryFragment extends Fragment{
     private Map <String, ArrayList<Item>> myItems;
     private SwapInventoryFragListener mListener;
     private int mID;
+    private SharedPreferences mSharedPreferences;
+
 
     private ItemDB mItemDB;
     private ArrayList<Item> mItemList;
@@ -75,7 +78,11 @@ public class InventoryFragment extends Fragment{
                 false);
         mItemList = new ArrayList<>();
         myItems = new HashMap<>();
-        mID = getArguments().getInt("id");
+        mSharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
+        if(!mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false)) {
+            mID = getArguments().getInt("id");
+        }
+
 
 
         final Button dairyButton = (Button) view.findViewById(R.id.dairy_button);

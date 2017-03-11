@@ -254,10 +254,19 @@ public class DashboardActivity extends AppCompatActivity
 
         if (id == R.id.inventory_dashboard) {
             fragment = new InventoryFragment();
+
+            Bundle b = new Bundle();
+            b.putInt("id", mID);
+            fragment.setArguments(b);
+
         } else if (id == R.id.recipe_dashboard) {
             fragment = new SearchRecipeFragment();
         } else if (id == R.id.grocery_dashboard) {
             fragment = new GroceryListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("List filled", mGrocListIsFilled);
+            bundle.putString("Grocery List", mGrocList);
+            fragment.setArguments(bundle);
         } else if (id == R.id.my_recipe_dash) {
             fragment = new MyRecipesFragment();
         } else if (id == R.id.scanner_dashboard) {
@@ -265,6 +274,12 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.plan_week_dashboard) {
             fragment = new PlanWeekFragment();
         }  else if (id == R.id.logout_dash) {
+            mSharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            Log.i("LOGGIN OUT ", "MIKE");
+            return true;
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
