@@ -2,6 +2,7 @@ package iann91.uw.tacoma.edu.myfridge.Dashboard;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import iann91.uw.tacoma.edu.myfridge.Authenticate.LoginActivity;
 import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.Inventory.InventoryFragment;
 import iann91.uw.tacoma.edu.myfridge.PlanWeekFragment;
@@ -116,6 +118,17 @@ public class DashboardFragment extends Fragment {
                 Fragment planWeekFragment = new PlanWeekFragment();
                 mListener = (OnDashboardFragmentInteractionListener)getActivity();
                 mListener.onDashboardFragmentInteraction(planWeekFragment);
+            }
+        });
+
+        final ImageButton logoutButton = (ImageButton) view.findViewById(R.id.logout_button_dash);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mSharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                Log.i("LOGGIN OUT ", "MIKE");
             }
         });
 
