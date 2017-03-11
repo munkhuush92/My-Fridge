@@ -23,7 +23,6 @@ import iann91.uw.tacoma.edu.myfridge.GroceryListFragment;
 import iann91.uw.tacoma.edu.myfridge.R;
 import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
 
-import static iann91.uw.tacoma.edu.myfridge.Recipe.RecipeDetailFragment.RECIPE_ITEM_SELECTED;
 
 /**
  * A simple {@link Fragment} subclass.

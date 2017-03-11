@@ -132,19 +132,14 @@ public class RecipeDetailFragment extends Fragment {
         if (recipe != null) {
             mRecipe= recipe;
             mRecipeTitle.setText(recipe.getmTitle());
-
-            // Downloads the image for the recipe.
             MyRecipeRecyclerViewAdapter.DownloadImageTask task = new MyRecipeRecyclerViewAdapter
                     .DownloadImageTask(mRecipeImage);
             task.execute(recipe.getmImageUrl());
 
-
-            // Parsing the ingredients from array to a single string with new line character.
             String joinIngredients = "";
             for(String s : recipe.getmIngredients()) {
                 joinIngredients += s + "\n";
             }
-
             mRecipeIngredients.setText(joinIngredients);
 
 

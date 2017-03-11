@@ -34,9 +34,16 @@ import iann91.uw.tacoma.edu.myfridge.Recipe.recipeItem.RecipeContent;
 public class RecipeFragment extends Fragment {
 
     /** Constants for building the API Url. */
-    private static final String BASE_API_URL = "https://api.edamam.com/search?", PARAM_QUERY =
-            "q", APP_ID = "app_id", APP_ID_VALUE = "059bdc05", APP_KEY = "app_key", APP_KEY_VALUE
-            = "478709483e30d7e1e79e7cc102eda2ac", FROM = "from", FROM_VALUE = "0", TO = "to",
+    private static final String MAIN_API_URL = "https://api.edamam.com/search?",
+            PARAM_QUERY = "q",
+            APP_ID = "app_id",
+            APP_ID_VALUE = "059bdc05",
+            APP_KEY = "app_key",
+            APP_KEY_VALUE
+            = "478709483e30d7e1e79e7cc102eda2ac",
+            FROM = "from",
+            FROM_VALUE = "0",
+            START = "to",
             TO_VALUE = "15";
 
     /** String for the current resulting API. */
@@ -176,12 +183,12 @@ public class RecipeFragment extends Fragment {
      * @return returns the API search URL
      */
     private static URL buildUrl(String searchQuery) {
-        Uri builtUri = Uri.parse(BASE_API_URL).buildUpon()
+        Uri builtUri = Uri.parse(MAIN_API_URL).buildUpon()
                 .appendQueryParameter(PARAM_QUERY, searchQuery)
                 .appendQueryParameter(APP_ID, APP_ID_VALUE)
                 .appendQueryParameter(APP_KEY, APP_KEY_VALUE)
                 .appendQueryParameter(FROM, FROM_VALUE)
-                .appendQueryParameter(TO, TO_VALUE)
+                .appendQueryParameter(START, TO_VALUE)
                 .build();
 
         URL url = null;
