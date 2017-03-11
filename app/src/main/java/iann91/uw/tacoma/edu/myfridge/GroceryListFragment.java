@@ -1,5 +1,7 @@
 package iann91.uw.tacoma.edu.myfridge;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +30,11 @@ public class GroceryListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+
+        super.onAttach(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,10 +64,8 @@ public class GroceryListFragment extends Fragment {
         if(getArguments().getBoolean("List filled")) {
             String[] tempList = getArguments().getString("Grocery List").split("\n");
             for(String cur:tempList) mGroceryList.add(cur);
-            Log.i("HEY", getActivity().toString());
-            mainAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowgrocerylist, R.id.row_item_grocery,mGroceryList );
+            mainAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowgrocerylist, R.id.row_item_grocery, mGroceryList );
             mGrocListView.setAdapter(mainAdapter);
-            Log.i("HEY!!!", ""+mainAdapter.getCount());
 
 
         }else{

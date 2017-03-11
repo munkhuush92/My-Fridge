@@ -26,8 +26,26 @@ public class Item implements Serializable{
      * @param mItemType type of item.
      */
     public Item(String mItemName, String mItemQuantity, String mPersonID, String mItemType) {
-        this.mItemName = mItemName;
-        this.mItemQuantity = mItemQuantity;
+        if(mItemName!=null){
+            this.mItemName = mItemName;
+        }else if (mItemName.length()<=2){
+            throw new IllegalArgumentException("Item name length cannot be less than 2 characters");
+        }else{
+            throw new NullPointerException("Item name cannot be null");
+        }
+
+        if(mItemQuantity!=null){
+            this.mItemQuantity = mItemQuantity;
+        }else if (mItemName.length()<1){
+            throw new IllegalArgumentException("Item name length cannot be less than 2 characters");
+        }else{
+            throw new NullPointerException("Item name cannot be null");
+        }
+        for(char singleDigit:mPersonID.toCharArray()){
+            if(!Character.isDigit(singleDigit)){
+                throw new IllegalArgumentException("Person ID should digits");
+            }
+        }
         this.mPersonID = mPersonID;
         this.mItemType = mItemType;
     }
