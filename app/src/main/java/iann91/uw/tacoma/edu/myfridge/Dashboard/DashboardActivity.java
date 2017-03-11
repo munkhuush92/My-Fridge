@@ -144,6 +144,8 @@ public class DashboardActivity extends AppCompatActivity
 
         RecipeFragment recipeFragment = RecipeFragment.newInstance("hello");
 
+
+
         if (findViewById(R.id.content_dashboard) != null) {
 
             // However, if we're being restored from a previous state,
@@ -169,8 +171,10 @@ public class DashboardActivity extends AppCompatActivity
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.content_dashboard, dashboardFragment).commit();
-        }
 
+
+           
+        }
 
 
 
@@ -210,18 +214,7 @@ public class DashboardActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dashboard, menu);
 
-        //set up log out button
-        ImageButton logoutButton = (ImageButton) this.findViewById(R.id.logout_button);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE );
-                sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
-                Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+
         return true;
     }
 

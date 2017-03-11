@@ -119,6 +119,7 @@ public class DashboardFragment extends Fragment {
 
 
 
+
         // Inflate the layout for this fragment
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.fab);
