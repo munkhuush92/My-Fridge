@@ -26,6 +26,7 @@ public class Item implements Serializable{
      * @param mPersonID person id for item.
      * @param mItemType type of item.
      */
+
     public Item(String mItemName, String mItemQuantity, String mPersonID, String mItemType) throws IllegalArgumentException{
         if(mItemName == null) {
             throw new NullPointerException("Must include item name");
@@ -51,7 +52,6 @@ public class Item implements Serializable{
         } else {
             throw new IllegalArgumentException("Must include quantity");
         }
-
     }
 
     public String getmItemType() {

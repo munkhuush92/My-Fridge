@@ -1,8 +1,11 @@
 package iann91.uw.tacoma.edu.myfridge;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -12,6 +15,7 @@ import org.junit.runner.RunWith;
 import java.util.Random;
 
 import iann91.uw.tacoma.edu.myfridge.Authenticate.LoginActivity;
+import iann91.uw.tacoma.edu.myfridge.testing.SharedPreferencesHelper;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -21,6 +25,7 @@ import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 
@@ -46,6 +51,8 @@ public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(
             LoginActivity.class);
+
+
 
 
     @Test
@@ -78,6 +85,33 @@ public class LoginActivityTest {
                                 .getWindow()
                                 .getDecorView()))))
                 .check(matches(isDisplayed()));
+    }
+
+
+    @Test
+    public void testLogin() {
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.email))
+                .perform(typeText("ian_nicho@gmail.com"));
+        onView(withId(R.id.password))
+                .perform(typeText("123456"));
+
+        onView(withId(R.id.login_button))
+                .perform(click());
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.logout_button_dash))
+                .perform(click());
+
     }
 
 
