@@ -20,6 +20,7 @@ import iann91.uw.tacoma.edu.myfridge.item.Item;
 public class ItemDB extends Application{
     private static final String ITEM_TABLE = "Food";
     private static final String NAME_FOOD_ITEM = "nameFoodItem";
+    private static final String QUANTITY_ITEM = "sizeFoodItem";
     private static final String PERSON_ID = "PersonID";
 
     public static final int DB_VERSION = 1;
@@ -63,6 +64,11 @@ public class ItemDB extends Application{
         //Close the database
         mSQLiteDatabase.close();
     }
+
+    public void updateItem(String quantity, int id) {
+        mSQLiteDatabase.execSQL("UPDATE " + ITEM_TABLE + " SET " + QUANTITY_ITEM + "= '" + quantity + "'" + " WHERE " + PERSON_ID  + "= " + id);
+    }
+
 
 
 
@@ -125,9 +131,36 @@ public class ItemDB extends Application{
             sqLiteDatabase.execSQL(CREATE_ITEM_SQL);
         }
 
+
+
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
             sqLiteDatabase.execSQL(DROP_ITEM_SQL);
+            onCreate(sqLiteDatabase);
+        }
+    }
+
+    class RecipeDBHelper extends SQLiteOpenHelper {
+
+        private final String CREATE_RECIPES_SQL;
+
+        private final String DROP_RECIPES_SQL;
+
+        public RecipeDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+            CREATE_RECIPES_SQL = context.getString(R.string.CREATE_RECIPES_SQL);
+            DROP_RECIPES_SQL = context.getString(R.string.DROP_RECIPES_SQL);
+
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase sqLiteDatabase) {
+            sqLiteDatabase.execSQL(CREATE_RECIPES_SQL);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+            sqLiteDatabase.execSQL(DROP_RECIPES_SQL);
             onCreate(sqLiteDatabase);
         }
     }

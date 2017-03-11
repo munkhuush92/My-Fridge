@@ -33,8 +33,12 @@
 
     <string name="CREATE_RECIPES_SQL">
         CREATE TABLE IF NOT EXISTS Recipes
-        (nameFoodItem TEXT PRIMARY KEY, sizeFoodItem TEXT,
-        PersonID INTEGER, foodType TEXT)
+        (recipeName TEXT PRIMARY KEY, recipeImgURL TEXT,
+        recipeIngredients INTEGER)
+    </string>
+
+    <string name="DROP_RECIPES_SQL">
+        DROP TABLE IF EXISTS Recipes
     </string>
 
     <string name="DROP_ITEM_SQL">

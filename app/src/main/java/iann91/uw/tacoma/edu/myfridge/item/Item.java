@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Holds the information for specific grocery item.
@@ -25,11 +26,32 @@ public class Item implements Serializable{
      * @param mPersonID person id for item.
      * @param mItemType type of item.
      */
-    public Item(String mItemName, String mItemQuantity, String mPersonID, String mItemType) {
-        this.mItemName = mItemName;
-        this.mItemQuantity = mItemQuantity;
-        this.mPersonID = mPersonID;
-        this.mItemType = mItemType;
+    public Item(String mItemName, String mItemQuantity, String mPersonID, String mItemType) throws IllegalArgumentException{
+        if(mItemName == null) {
+            throw new NullPointerException("Must include item name");
+        }
+        if(mPersonID == null) {
+            throw new NullPointerException("Must include id");
+        }
+        if(mItemQuantity == null) {
+            throw new NullPointerException("Must include item quantity");
+        }
+        if(mItemType == null) {
+            throw new NullPointerException("Must include item type");
+        }
+        if(mItemName.length() > 2) {
+            this.mItemName = mItemName;
+        }else {
+            throw new IllegalArgumentException("Item name must be greater than 2 characters");
+        }
+        if(mItemQuantity.length() > 0) {
+            this.mItemQuantity = mItemQuantity;
+            this.mPersonID = mPersonID;
+            this.mItemType = mItemType;
+        } else {
+            throw new IllegalArgumentException("Must include quantity");
+        }
+
     }
 
     public String getmItemType() {

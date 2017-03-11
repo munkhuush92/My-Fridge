@@ -76,10 +76,14 @@ public class ItemDetailFragment extends Fragment {
         updateItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItem.setmItemQuantity(mItemQuantityEditText.getText().toString());
-                updateView(mItem);
+                mItemQuantity = mItemQuantityEditText.getText().toString();
                 String url = buildCourseURL(v, ITEM_UPDATE_URL);
-                mListener.addItemDatabase(url);
+                if(url != null) {
+                    mListener.addItemDatabase(url);
+                    mItemDB.updateItem(mItemQuantity, mPersonID);
+                } else {
+                    Toast.makeText(v.getContext(), "Must include quantity", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -87,10 +91,12 @@ public class ItemDetailFragment extends Fragment {
         deleteItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = buildCourseURL(v, ITEM_DELETE_URL);
-                mListener.addItemDatabase(url);
-                mLocalDeleteListener.deleteItem(mItemName, mItemType);
-                mItemDB.removeSingleItem(mItem.getmItemName(), mPersonID);
+            String url = buildCourseURL(v, ITEM_DELETE_URL);
+
+            mListener.addItemDatabase(url);
+            mLocalDeleteListener.deleteItem(mItemName, mItemType);
+            mItemDB.removeSingleItem(mItem.getmItemName(), mPersonID);
+
             }
         });
 
@@ -186,10 +192,12 @@ public class ItemDetailFragment extends Fragment {
             sb.append("&foodType=");
             sb.append(mItemType);
 
+            mItem = new Item(mItemName, mItemQuantity, "" +mPersonID, mItemType);
         }
         catch(Exception e) {
             Toast.makeText(v.getContext(), "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
+            return null;
         }
         return sb.toString();
     }

@@ -90,7 +90,10 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildCourseURL(v, ITEM_ADD_URL);
-                mListener.addItemDatabase(url);
+                if(url != null) {
+                    mListener.addItemDatabase(url);
+
+                }
             }
         });
         return v;
@@ -123,7 +126,9 @@ public class AddItemFragment extends Fragment {
         catch(Exception e) {
             Toast.makeText(v.getContext(), "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
+            return null;
         }
+
         return sb.toString();
     }
 

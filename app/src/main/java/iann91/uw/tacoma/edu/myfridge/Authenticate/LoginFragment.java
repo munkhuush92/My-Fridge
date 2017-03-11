@@ -293,8 +293,16 @@ public class LoginFragment extends Fragment {
                     int id = (int) jsonObject.get("id");
                     mListener.login(mEmail, id);
                     //getActivity().finish();
+                } else {
+                    String error = (String) jsonObject.get("error");
+                    if(error.equals("Incorrect password.")) {
+                        Toast.makeText( getActivity(),"Incorrect Password", Toast.LENGTH_LONG).show();
+                        mPasswordView.requestFocus();
+                    } else {
+                        Toast.makeText( getActivity(),"Incorrect Email", Toast.LENGTH_LONG).show();
+                        mEmailView.requestFocus();
+                    }
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
                 err = "Exception: "+e.getMessage();
