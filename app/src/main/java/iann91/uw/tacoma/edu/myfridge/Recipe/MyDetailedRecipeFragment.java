@@ -38,9 +38,16 @@ public class MyDetailedRecipeFragment extends Fragment {
     private String mEmailContent;
 
     private String mGrocList;
+
+
+
+    public MyDetailedRecipeFragment() {
+
+    }
+
     public MyDetailedRecipeFragment(RecipeContent theRecipe) {
         mRecipe = theRecipe;
-        // Required empty public constructor
+
     }
 
 
